@@ -44,7 +44,7 @@ const SignUp  = ()=>{
             //M.toast({html:"password does match",classes:"#c62828 red darken-3",displayLength:1500})
             return
         }
-        fetch("/signup",{
+        fetch("/api/auth/signup",{
             method:"post",
             headers:{
                 "Content-Type":"application/json"

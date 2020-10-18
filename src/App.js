@@ -16,13 +16,12 @@ const Routing=()=>{
   const {state,dispatch}=useContext(usercontext)
   useEffect(()=>{
     const user= JSON.parse(localStorage.getItem("user"))
-    
     if(user){
       dispatch({type:"USER",payload:user})
     }
     else{
       if(!history.location.pathname.startsWith('/reset'))
-           history.push('/login')
+           history.push('/')
     }
   },[])
   return(
@@ -40,6 +39,7 @@ const Routing=()=>{
   );
 }
 function App() {
+  
   const [state,dispatch]=useReducer(reducer,initialState)
   return (
     <usercontext.Provider value={{state,dispatch}}>
