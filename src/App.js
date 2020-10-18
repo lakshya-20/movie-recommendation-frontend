@@ -39,7 +39,7 @@ const Routing=()=>{
   );
 }
 function App() {
-  
+  //localStorage.clear()
   const [state,dispatch]=useReducer(reducer,initialState)
   return (
     <usercontext.Provider value={{state,dispatch}}>

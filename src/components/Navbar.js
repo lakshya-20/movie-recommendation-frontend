@@ -39,11 +39,6 @@ const Header =()=>{
         setIsLoginModalOpen(false)
     }
 
-    const handleLogin=(event)=>{
-        this.toggleLoginModal();
-        event.preventDefault();
-    }
-
     const handleSignup=(event)=> {
         
         //alert(JSON.stringify(user))
@@ -54,12 +49,13 @@ const Header =()=>{
         const gender=user.gender
         if(!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)){
             M.toast({html: "invalid email",classes:"#c62828 red darken-3"})
+            return
             //signal("invalid email","danger")
             
         }
         if(password!==repassword){
             M.toast({html:"password does match",classes:"#c62828 red darken-3",displayLength:1500})
-            
+            return
         }
         fetch(backendURL+"/api/auth/signup",{
             method:"post",
@@ -80,6 +76,43 @@ const Header =()=>{
                 //M.toast({html:data.message,classes:"#43a047 green darken-1"})
                 //signal()
                 toggleSignupModal();
+                history.push('/')
+            }
+        }).catch(err=>{
+            console.log(err)
+        })
+        
+        event.preventDefault();
+    }
+
+    const handleLogin=(event)=>{
+        const email=user.email;
+        const password=user.password;
+        if(!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)){
+            M.toast({html: "invalid email",classes:"#c62828 red darken-3"})
+            return
+        }
+        fetch(backendURL+"/api/auth/signin",{
+            method:"post",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({
+                email,
+                password
+            })
+        }).then(res=>res.json())
+        .then(data=>{
+            if(data.error){
+                alert(data.error);
+                M.toast({html: data.error,classes:"#c62828 red darken-3"})
+            }
+            else{
+                localStorage.setItem("jwt",data.token)
+                localStorage.setItem("user",JSON.stringify(data.user))
+                dispatch({type:"USER",payload:data.user})
+                //M.toast({html:"signedin successfully",classes:"#43a047 green darken-1"})
+                toggleLoginModal();
                 history.push('/')
             }
         }).catch(err=>{
