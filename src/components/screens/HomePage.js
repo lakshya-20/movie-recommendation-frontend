@@ -1,10 +1,11 @@
 import React,{useState,useContext} from 'react';
-
 const Homepage=()=>{
 
     return(
         <div>
-            HomePage
+            <div className="container">
+                HomePage
+            </div>
         </div>
 
     )

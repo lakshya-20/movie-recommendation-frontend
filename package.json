@@ -9,10 +9,13 @@
     "@testing-library/user-event": "^7.2.1",
     "bootstrap": "^4.5.3",
     "bootstrap-social": "^5.1.1",
+    "faker": "^5.1.0",
     "font-awesome": "^4.7.0",
     "materialize-css": "^1.0.0",
     "react": "^16.14.0",
+    "react-animation-components": "^3.0.0",
     "react-dom": "^16.14.0",
+    "react-paginate": "^6.5.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
     "reactstrap": "^8.6.0"

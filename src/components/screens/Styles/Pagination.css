@@ -1,0 +1,29 @@
+#react-paginate ul {
+   display: inline-block;
+   margin-left: 20px;
+   padding-left: 0;
+}
+
+#react-paginate li {
+   display: inline-block;
+   border: 1px solid rgb(224, 224, 224);
+   color: #000;
+   cursor: pointer;
+   margin-right: 3px;
+   border-radius: 5px;
+   margin-bottom: 5px;
+   text-align: center;
+   min-width: 30px;
+}
+
+ #react-paginate li a {
+     padding: 2px 5px;
+     display: inline-block;
+     color: #000;
+     outline: none;
+ }
+
+#react-paginate li.active {
+   background: rgb(224, 224, 224);
+   outline: none;
+}

@@ -4,7 +4,7 @@ import {BrowserRouter, Route, Switch, useHistory, Link} from 'react-router-dom'
 import NavBar from './components/Navbar'
 import HomePage from './components/screens/HomePage';
 import Login from './components/screens/Login';
-import Signup from './components/screens/Signup';
+import Movies from './components/screens/Movies';
 import './App.css';
 
 import {reducer,initialState} from './reducers/userReducer'
@@ -29,8 +29,8 @@ const Routing=()=>{
       <Route exact path="/">
         <HomePage />
       </Route>
-      <Route path="/signup">
-        <Signup />
+      <Route path="/movies">
+        <Movies />
       </Route>
       <Route path="/login">
         <Login />
