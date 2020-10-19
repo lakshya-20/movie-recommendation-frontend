@@ -6,6 +6,8 @@ import HomePage from './components/screens/HomePage';
 import Login from './components/screens/Login';
 import Movies from './components/screens/Movies';
 import MovieDetails from './components/screens/MovieDetails'
+import Contact from './components/screens/Contact'
+import About from './components/screens/About'
 import './App.css';
 
 import {reducer,initialState} from './reducers/userReducer'
@@ -35,6 +37,12 @@ const Routing=()=>{
       </Route>
       <Route path="/movie/:movieId">
         <MovieDetails/>
+      </Route>
+      <Route path='/contactus'>
+        <Contact/>
+      </Route>
+      <Route path="/aboutus">
+        <About />
       </Route>
     </Switch>
   );

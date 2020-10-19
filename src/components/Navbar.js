@@ -135,7 +135,6 @@ const Header =()=>{
     };
 
     const signal=()=>{
-        console.log("jhkj")
         return(
             <Toast isOpen={true}  id="toast-container" >
                 <ToastHeader icon="success">
@@ -254,7 +253,7 @@ const Header =()=>{
                 <div className="container">
                     {()=>signal()}
                     <NavbarToggler onClick={toggleNav} />
-                    <NavbarBrand className="mr-auto" href={state?"/":"/login"}><img src='assets/images/logo.png' height="30" width="41" alt='Flick' /></NavbarBrand>
+                    <NavbarBrand className="mr-auto" href={state?"/":"/"}><img src='assets/images/logo.png' height="30" width="41" alt='Flick' /></NavbarBrand>
                     
                         <>
                         {
