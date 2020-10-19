@@ -17,6 +17,7 @@
     "react": "^16.14.0",
     "react-animation-components": "^3.0.0",
     "react-dom": "^16.14.0",
+    "react-multi-carousel": "^2.5.5",
     "react-paginate": "^6.5.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
