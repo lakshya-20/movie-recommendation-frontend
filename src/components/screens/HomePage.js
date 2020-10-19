@@ -53,7 +53,7 @@ const Homepage=()=>{
     const[recomd_movies_data,setRecomdMoviesData]=useState([])
     const {state,dispatch}=useContext(usercontext)
     useEffect(()=>{
-        if(state){
+        if(state&& state.reviews.length!=0){
             const userId=state._id
             fetch(flaskBackendURL+`/recommendation/${userId}`)
             .then(res=>res.json())

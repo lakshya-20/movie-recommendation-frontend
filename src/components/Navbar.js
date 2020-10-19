@@ -125,6 +125,7 @@ const Header =()=>{
     const handleLogout=(e)=>{
         localStorage.clear()
         dispatch({type:"CLEAR"})
+        window.location.reload(false);
         history.push('/')
     }
     const onChange=(e)=>{
