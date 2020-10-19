@@ -6,7 +6,7 @@ import StarRatings from 'react-star-ratings';
 import BeautyStars from 'beauty-stars';
 import {usercontext} from'../../App'
 import {useParams,Link} from 'react-router-dom'
-import {backendURL} from '../../Config'
+import {backendURL,flaskBackendURL} from '../../Config'
 
 const MovieDetails=({props})=>{
 
@@ -55,6 +55,18 @@ const MovieDetails=({props})=>{
         setNewReview({...newReview,[name]:value})
     };
     
+    const flaskHandleSubmit=()=>{
+        const userId=state._id
+        fetch(flaskBackendURL+`/newReview/${userId}`,{
+            
+        }).then(res=>{
+            console.log("review added")
+        }).catch(err=>{
+            console.log(err)
+        })
+
+    }
+
     const handleSubmit=(event)=> {
         const rating=newReview.rating
         const comment=newReview.comment
@@ -85,6 +97,7 @@ const MovieDetails=({props})=>{
                 localStorage.setItem("user",JSON.stringify(data.user))
                 dispatch({type:"USER",payload:data.user})
                 toggleReviewModal()
+                flaskHandleSubmit()
                 window.location.reload(false);
             }
         }).catch(err=>{

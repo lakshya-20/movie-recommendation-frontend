@@ -34,7 +34,7 @@ function App(props) {
         pageCount: 0,
         currentData: []
     });
-    console.log("props"+props.movies_data.length)
+    
 
     useEffect(() => {
         setPagination((prevState) => ({
