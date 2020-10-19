@@ -5,6 +5,7 @@ import NavBar from './components/Navbar'
 import HomePage from './components/screens/HomePage';
 import Login from './components/screens/Login';
 import Movies from './components/screens/Movies';
+import MovieDetails from './components/screens/MovieDetails'
 import './App.css';
 
 import {reducer,initialState} from './reducers/userReducer'
@@ -32,8 +33,8 @@ const Routing=()=>{
       <Route path="/movies">
         <Movies />
       </Route>
-      <Route path="/login">
-        <Login />
+      <Route path="/movie/:movieId">
+        <MovieDetails/>
       </Route>
     </Switch>
   );

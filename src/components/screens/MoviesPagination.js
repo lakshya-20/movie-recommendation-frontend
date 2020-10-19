@@ -2,14 +2,13 @@ import React, { useState,useEffect } from 'react';
 import { Card, CardImg, CardImgOverlay,CardTitle,CardBody,CardText, 
     Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import {Link} from 'react-router-dom';
-import {backendURL} from '../../Config'
 import ReactPaginate from 'react-paginate';
 import './Styles/Pagination.css'
 
 function RenderMovie ({movie}) {
     return (
         <Card>
-            <Link to={`/menu/${movie.id}`} className="text-decoration-none">
+            <Link to={`/movie/${movie._id}`} className="text-decoration-none">
                 <CardImg width="100%" src={movie.poster} alt={movie.title} />
                 {/* <CardImgOverlay>
                     <CardTitle><span className="badge-dark">{movie.title}</span></CardTitle>
@@ -56,7 +55,7 @@ function App(props) {
         <div className="container">
             <div className="row">
                 <Breadcrumb>
-                    <BreadcrumbItem><Link to='/home'>Home</Link></BreadcrumbItem>
+                    <BreadcrumbItem><Link to='/'>Home</Link></BreadcrumbItem>
                     <BreadcrumbItem active>Movies</BreadcrumbItem>
                 </Breadcrumb>
                 <div className="col-12">
@@ -66,7 +65,7 @@ function App(props) {
             </div>
             <div className="row justify-content-center">
                 {pagination.currentData && pagination.currentData.map(((item, index) => (
-                    <div className="col-5 col-md-3  py-3"  key={item._id}>
+                    <div className="col-6 col-md-3  py-3"  key={item._id}>
                         <RenderMovie movie={item}  />
                     </div>
                 )))
