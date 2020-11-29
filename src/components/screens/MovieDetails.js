@@ -8,7 +8,24 @@ import {usercontext} from'../../App'
 import {useParams,Link} from 'react-router-dom'
 import {backendURL,flaskBackendURL} from '../../Config'
 
-const MovieDetails=({props})=>{
+
+//redux
+import {fetchUserReviews}  from '../../redux/ActionCreators';
+import {connect} from 'react-redux';
+
+const mapStateToProps=state=>{
+    return{
+        userReviews:state.userReviews
+    }
+}
+
+const mapDispatchToProps=dispatch=>({
+    fetchUserReviews:(userId)=>dispatch(fetchUserReviews(userId))
+})
+
+
+const MovieDetails=(props)=>{
+    console.log("dedwd"+JSON.stringify(props.userReviews))
 
     const [movieId,setMovieId]=useState(useParams().movieId)
     const [movieDetails,setMovieDetails]=useState({})
@@ -28,11 +45,16 @@ const MovieDetails=({props})=>{
             setMovieDetails(result)
         })
     },[])
-
+    useEffect(()=>{
+        if(state){
+            props.fetchUserReviews(state._id);               
+        }
+    },[state])
     useEffect(()=>{
         
         if(state){
-            const reviews=state.reviews
+            const reviews=props.userReviews.REVIEWS
+            //const reviews=state.reviews
             for(var i=0;i<reviews.length;i++){
                 const review=reviews[i]
                 if(review.refMovieId._id===movieId){
@@ -43,7 +65,7 @@ const MovieDetails=({props})=>{
                 }
             }
         }
-    },[movieDetails])
+    },[props])
 
     const toggleReviewModal=()=>{
         setIsReviewModalOpen(!isReviewModalOpen)
@@ -195,9 +217,15 @@ const MovieDetails=({props})=>{
                         }
                     </>
                 </div>
+                <div>
+                    {
+                        JSON.stringify(props)
+                    }
+                </div>
+
             </div>
         </div>
     )
 }
 
-export default MovieDetails;
+export default connect(mapStateToProps,mapDispatchToProps)(MovieDetails);

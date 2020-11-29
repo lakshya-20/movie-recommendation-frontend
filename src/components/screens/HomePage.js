@@ -9,6 +9,22 @@ import "react-multi-carousel/lib/styles.css";
 import {Link} from 'react-router-dom';
 import { Loading } from './Loading'
 
+//redux
+import {fetchUserReviews,fetchMovies}  from '../../redux/ActionCreators';
+import {connect} from 'react-redux';
+
+
+const mapStateToProps=state=>{
+    return{
+        userReviews:state.userReviews
+    }
+}
+
+const mapDispatchToProps=dispatch=>({
+    fetchUserReviews:(userId)=>dispatch(fetchUserReviews(userId)),
+    fetchMovies:()=>dispatch(fetchMovies())
+})
+
 function RenderMovie ({movie}) {
     return (
         <Card>
@@ -49,7 +65,8 @@ const responsive = {
     }
 };
 
-const Homepage=()=>{
+const Homepage=(props)=>{
+    console.log("homepage props"+JSON.stringify(props))
     const[recomd_movies_data,setRecomdMoviesData]=useState([])
     const {state,dispatch}=useContext(usercontext)
     useEffect(()=>{
@@ -70,6 +87,15 @@ const Homepage=()=>{
             })
         }
     },[state])
+
+    useEffect(()=>{
+        if(state&& state.reviews.length!=0){
+            //alert("khg")
+            props.fetchUserReviews(state._id);
+            props.fetchMovies()
+        }
+    },[state])
+
     return(
         <div className="container">
             <div className="row">
@@ -110,4 +136,4 @@ const Homepage=()=>{
     )
 }
 
-export default Homepage;
+export default connect(mapStateToProps,mapDispatchToProps)(Homepage);

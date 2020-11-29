@@ -36,8 +36,8 @@ export const fetchMovies=()=>(dispatch)=>{
     },
     error => {
         var errMess = new Error(error.message);
-        dispatch(moviesFailed(errMess));
-        throw errmess;
+        //dispatch(moviesFailed(errMess));
+        throw errMess;
     })
     .then(response => response.json())
     .then(movies => dispatch(addMovies(movies)))
@@ -60,7 +60,7 @@ export const addUserReviews=(userReviews)=>({
 
 export const fetchUserReviews=(userId)=>(dispatch)=>{
     dispatch(userReviewsLoading());
-    return fetch(backendURL+`/api/reviews${userId}`,{
+    return fetch(backendURL+`/api/reviews/${userId}`,{
         headers:{
             "Authorization":"Bearer "+localStorage.getItem("jwt")
         }
@@ -78,7 +78,7 @@ export const fetchUserReviews=(userId)=>(dispatch)=>{
     error => {
         var errMess = new Error(error.message);
         dispatch(userReviewsFailed(errMess))
-        throw errmess;
+        throw errMess;
     })
     .then(response => response.json())
     .then(reviews => dispatch(addUserReviews(reviews)))
@@ -115,7 +115,7 @@ export const fetchRecommendations=(userId)=>(dispatch)=>{
     error => {
         var errMess = new Error(error.message);
         dispatch(recommendationsFailed(errMess))
-        throw errmess;
+        throw errMess;
     })
     .then(response => response.json())
     .then(recommd => {
@@ -144,5 +144,5 @@ export const addAuthState=(authState)=>({
 })
 
 export const authStateLogout=()=>({
-    type:ActionTypes.authStateLogout
+    type:ActionTypes.AUTH_STATE_LOGOUT
 })

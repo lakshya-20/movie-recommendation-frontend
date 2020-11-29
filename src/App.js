@@ -9,8 +9,13 @@ import MovieDetails from './components/screens/MovieDetails'
 import Contact from './components/screens/Contact'
 import About from './components/screens/About'
 import './App.css';
-
 import {reducer,initialState} from './reducers/userReducer'
+
+
+//redux
+import {Provider} from 'react-redux';
+import {ConfigureStore} from './redux/ConfigureStore';
+const store=ConfigureStore();
 
 export const usercontext=createContext()
 
@@ -52,10 +57,12 @@ function App() {
   const [state,dispatch]=useReducer(reducer,initialState)
   return (
     <usercontext.Provider value={{state,dispatch}}>
-    <BrowserRouter>
-      <NavBar />
-      <Routing />
-    </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <NavBar />
+          <Routing />
+        </BrowserRouter>
+      </Provider>
     </usercontext.Provider>
     
   );

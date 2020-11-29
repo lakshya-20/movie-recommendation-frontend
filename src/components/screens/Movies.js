@@ -1,69 +1,14 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState,useEffect,useContext } from 'react';
 import { Card, CardImg, CardImgOverlay,CardTitle,CardBody,CardText, 
     Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import {Link} from 'react-router-dom';
 import {backendURL} from '../../Config'
-import App from './MoviesPagination'
+import MoviesPagination from './MoviesPagination'
 import { Loading } from './Loading'
-    const movies_data=[
-        // {
-        //     _id: "5f8b5e1ae2ee0b535ab9a6e8",
-        //     movieId: 114709,
-        //     imdb_link: "http://www.imdb.com/title/tt114709",
-        //     poster: "https://images-na.ssl-images-amazon.com/images/M/MV5BMDU2ZWJlMjktMTRhMy00ZTA5LWEzNDgtYmNmZTEwZTViZWJkXkEyXkFqcGdeQXVyNDQ2OTk4MzI@._V1_UX182_CR0,0,182,268_AL_.jpg",
-        //     title: "Toy Story (1995)",
-        //     imdb_score: 8.3,
-        //     genres: "Animation|Adventure|Comedy"
-        // },
-        // {
-        //     _id: "5f8b5e1ae2ee0b535ab9a6e8",
-        //     movieId: 114709,
-        //     imdb_link: "http://www.imdb.com/title/tt114709",
-        //     poster: "https://images-na.ssl-images-amazon.com/images/M/MV5BMDU2ZWJlMjktMTRhMy00ZTA5LWEzNDgtYmNmZTEwZTViZWJkXkEyXkFqcGdeQXVyNDQ2OTk4MzI@._V1_UX182_CR0,0,182,268_AL_.jpg",
-        //     title: "Toy Story (1995)",
-        //     imdb_score: 8.3,
-        //     genres: "Animation|Adventure|Comedy"
-        // },
-        // {
-        //     _id: "5f8b5e1ae2ee0b535ab9a6e8",
-        //     movieId: 114709,
-        //     imdb_link: "http://www.imdb.com/title/tt114709",
-        //     poster: "https://images-na.ssl-images-amazon.com/images/M/MV5BMDU2ZWJlMjktMTRhMy00ZTA5LWEzNDgtYmNmZTEwZTViZWJkXkEyXkFqcGdeQXVyNDQ2OTk4MzI@._V1_UX182_CR0,0,182,268_AL_.jpg",
-        //     title: "Toy Story (1995)",
-        //     imdb_score: 8.3,
-        //     genres: "Animation|Adventure|Comedy"
-        // },
-        // {
-        //     _id: "5f8b5e1ae2ee0b535ab9a6e8",
-        //     movieId: 114709,
-        //     imdb_link: "http://www.imdb.com/title/tt114709",
-        //     poster: "https://images-na.ssl-images-amazon.com/images/M/MV5BMDU2ZWJlMjktMTRhMy00ZTA5LWEzNDgtYmNmZTEwZTViZWJkXkEyXkFqcGdeQXVyNDQ2OTk4MzI@._V1_UX182_CR0,0,182,268_AL_.jpg",
-        //     title: "Toy Story (1995)",
-        //     imdb_score: 8.3,
-        //     genres: "Animation|Adventure|Comedy"
-        // },
-        // {
-        //     _id: "5f8b5e1ae2ee0b535ab9a6e8",
-        //     movieId: 114709,
-        //     imdb_link: "http://www.imdb.com/title/tt114709",
-        //     poster: "https://images-na.ssl-images-amazon.com/images/M/MV5BMDU2ZWJlMjktMTRhMy00ZTA5LWEzNDgtYmNmZTEwZTViZWJkXkEyXkFqcGdeQXVyNDQ2OTk4MzI@._V1_UX182_CR0,0,182,268_AL_.jpg",
-        //     title: "Toy Story (1995)",
-        //     imdb_score: 8.3,
-        //     genres: "Animation|Adventure|Comedy"
-        // },
-        // {
-        //     _id: "5f8b5e1ae2ee0b535ab9a6e8",
-        //     movieId: 114709,
-        //     imdb_link: "http://www.imdb.com/title/tt114709",
-        //     poster: "https://images-na.ssl-images-amazon.com/images/M/MV5BMDU2ZWJlMjktMTRhMy00ZTA5LWEzNDgtYmNmZTEwZTViZWJkXkEyXkFqcGdeQXVyNDQ2OTk4MzI@._V1_UX182_CR0,0,182,268_AL_.jpg",
-        //     title: "Toy Story (1995)",
-        //     imdb_score: 8.3,
-        //     genres: "Animation|Adventure|Comedy"
-        // }
-    ]
 
-
-
+import {fetchMovies,moviesLoading}  from '../../redux/ActionCreators';
+import {connect} from 'react-redux';
+import {usercontext} from'../../App'
     function RenderMovie ({movie}) {
         return (
             <Card>
@@ -84,21 +29,52 @@ import { Loading } from './Loading'
         );
     }
 
-    const Movies = (props) => {
+    const mapStateToProps=state=>{
+        return{
+            movies:state.movies
+        }
+    }
 
+    const mapDispatchToProps=dispatch=>({
+        fetchMovies:()=>dispatch(fetchMovies()),
+        moviesLoading:()=>dispatch(moviesLoading())
+    })
+
+    const Movies = (props) => {
         const[movies_data,setMoviesData]=useState([])
+        const {state,dispatch}=useContext(usercontext)
+        
+        useEffect(()=>{
+            // fetch(backendURL+'/api/movies',{
+            //     headers:{
+            //         "Authorization":"Bearer "+localStorage.getItem("jwt")
+            //     }
+            // }).then(res=>res.json())
+            // .then(result=>{
+            //     //setMoviesData(result)
+            //     //console.log("lkjlk",result.posts)
+            // })
+            // //props.fetchMovies();
+            // //alert(JSON.stringify(props.movies))
+            // //props.moviesLoading();
+        },[])
+
 
         useEffect(()=>{
-            fetch(backendURL+'/api/movies',{
-                headers:{
-                    "Authorization":"Bearer "+localStorage.getItem("jwt")
-                }
-            }).then(res=>res.json())
-            .then(result=>{
-                setMoviesData(result)
-                //console.log("lkjlk",result.posts)
-            })
-        },[])
+            if(props.movies.MOVIES==0){
+                props.fetchMovies();
+            }
+        },[state])
+
+
+        useEffect(()=>{
+            //alert(JSON.stringify(props))
+            if(!props.movies.loading){
+                setMoviesData(props.movies.MOVIES)
+                //alert(JSON.stringify(props.movies.MOVIES))
+            }
+        },[props])
+
 
         const movies = movies_data.map((movie) => {
             return (
@@ -127,7 +103,7 @@ import { Loading } from './Loading'
                 <>
                 {
                     movies_data.length>100?
-                        <App movies_data={movies_data}/>
+                        <MoviesPagination movies_data={movies_data}/>
                     :
                         <div className="container">
                             <div className="row text-center pt-5">            
@@ -142,4 +118,4 @@ import { Loading } from './Loading'
         
     }
 
-export default Movies;
+export default connect(mapStateToProps,mapDispatchToProps)(Movies);
