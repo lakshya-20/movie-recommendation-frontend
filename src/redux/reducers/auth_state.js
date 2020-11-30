@@ -15,6 +15,8 @@ export const AuthState=(state={
             return {...state,isLoading:true,errMess:null,authState:{},login:true}
         case ActionTypes.AUTH_STATE_LOGOUT:
             return {...state,isLoading:false,errMess:null,authState:{},login:false}
+        case ActionTypes.UPDATE_AUTH_STATE:
+            return {...state,isLoading:false,errMess:null,authState:state.authState.push(action.payload),login:false}
         default:return state;
     }
 }

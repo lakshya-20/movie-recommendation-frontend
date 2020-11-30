@@ -152,3 +152,16 @@ export const addAuthState=(authState)=>({
 export const authStateLogout=()=>({
     type:ActionTypes.AUTH_STATE_LOGOUT
 })
+
+export const updateAuthState=(newReview)=>({
+    type:ActionTypes.UPDATE_AUTH_STATE,
+    payload:newReview
+})
+
+
+//function to handle with new review
+
+export const addNewReview=(newReview)=>(
+    newUserReview(newReview),
+    updateAuthState(newReview)
+)

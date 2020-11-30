@@ -17,7 +17,8 @@ import {connect} from 'react-redux';
 const mapStateToProps=state=>{
     return{
         userReviews:state.userReviews,
-        recommendations:state.recommendations
+        recommendations:state.recommendations,
+        authState:state.authState
     }
 }
 
@@ -91,8 +92,8 @@ const Homepage=(props)=>{
     // },[state])
 
     useEffect(()=>{
+        //alert("Homepage1"+JSON.stringify(state))
         if(state&& state.reviews.length!=0){
-            //alert("khg")
             props.fetchUserReviews(state._id);
             props.fetchMovies()
             props.fetchRecommendations(state._id)
@@ -100,8 +101,8 @@ const Homepage=(props)=>{
     },[])
 
     useEffect(()=>{
+        //alert("HomePage2"+JSON.stringify(state))
         if(state&& state.reviews.length!=0){
-            //alert("khg")
             props.fetchUserReviews(state._id);
             props.fetchMovies()
             props.fetchRecommendations(state._id)

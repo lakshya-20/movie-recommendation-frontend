@@ -10,7 +10,7 @@ import {backendURL,flaskBackendURL} from '../../Config'
 
 
 //redux
-import {fetchUserReviews,newUserReview}  from '../../redux/ActionCreators';
+import {fetchUserReviews,addNewReview}  from '../../redux/ActionCreators';
 import {connect} from 'react-redux';
 
 const mapStateToProps=state=>{
@@ -79,7 +79,6 @@ const MovieDetails=(props)=>{
     };
     
     const flaskHandleSubmit=()=>{
-        alert("Entered")
         const userId=state._id
         fetch(flaskBackendURL+`/newReview/${userId}`,{
             
@@ -116,11 +115,12 @@ const MovieDetails=(props)=>{
                 alert(JSON.stringify(data.error))
             }
             else{        
-                //console.log(data)
-                newUserReview(data)
+                addNewReview(data.newReview)
                 setIsReviewed(true)
-                //localStorage.setItem("user",JSON.stringify(data.user))
-                //dispatch({type:"USER",payload:data.user})
+                var stateUser=state
+                stateUser.reviews.push(data.newReview);
+                localStorage.setItem("user",JSON.stringify(stateUser))
+                //dispatch({type:"USER",payload:stateUser})
                 toggleReviewModal()
                 flaskHandleSubmit()
                 window.location.reload(false);
