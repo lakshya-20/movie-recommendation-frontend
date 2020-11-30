@@ -10,19 +10,21 @@ import {Link} from 'react-router-dom';
 import { Loading } from './Loading'
 
 //redux
-import {fetchUserReviews,fetchMovies}  from '../../redux/ActionCreators';
+import {fetchUserReviews,fetchMovies,fetchRecommendations}  from '../../redux/ActionCreators';
 import {connect} from 'react-redux';
 
 
 const mapStateToProps=state=>{
     return{
-        userReviews:state.userReviews
+        userReviews:state.userReviews,
+        recommendations:state.recommendations
     }
 }
 
 const mapDispatchToProps=dispatch=>({
     fetchUserReviews:(userId)=>dispatch(fetchUserReviews(userId)),
-    fetchMovies:()=>dispatch(fetchMovies())
+    fetchMovies:()=>dispatch(fetchMovies()),
+    fetchRecommendations:(userId)=>dispatch(fetchRecommendations(userId))
 })
 
 function RenderMovie ({movie}) {
@@ -66,7 +68,7 @@ const responsive = {
 };
 
 const Homepage=(props)=>{
-    console.log("homepage props"+JSON.stringify(props))
+    console.log("homepage props"+JSON.stringify(props.recommendations))
     const[recomd_movies_data,setRecomdMoviesData]=useState([])
     const {state,dispatch}=useContext(usercontext)
     useEffect(()=>{
@@ -81,7 +83,7 @@ const Homepage=(props)=>{
                     const id=movie._id.$oid
                     movies[i]._id=id
                 }
-                setRecomdMoviesData(movies)  
+                //setRecomdMoviesData(movies)  
             }).catch(err=>{
                 console.log("err",err)
             })
@@ -93,8 +95,13 @@ const Homepage=(props)=>{
             //alert("khg")
             props.fetchUserReviews(state._id);
             props.fetchMovies()
+            props.fetchRecommendations(state._id)
         }
     },[state])
+
+    useEffect(()=>{
+        setRecomdMoviesData(props.recommendations.RECOMMENDATIONS)
+    },[props])
 
     return(
         <div className="container">

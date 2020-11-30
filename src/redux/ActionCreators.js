@@ -102,21 +102,22 @@ export const addRecommendations=(recommendations)=>({
 export const fetchRecommendations=(userId)=>(dispatch)=>{
     dispatch(recommendationsLoading());
     return fetch(flaskBackendURL+`/recommendation/${userId}`)
-    .then(response => {
-        if (response.ok) {
-            return response;
-        } 
-        else {
-            var error = new Error('Error ' + response.status + ': ' + response.statusText);
-            error.response = response;
-            throw error;
-        }
-    },
-    error => {
-        var errMess = new Error(error.message);
-        dispatch(recommendationsFailed(errMess))
-        throw errMess;
-    })
+    // .then(response => {
+    //     if (response.ok) {
+    //         return response;
+    //     } 
+    //     else {
+    //         var error = new Error('Error ' + response.status + ': ' + response.statusText);
+    //         error.response = response;
+    //         throw error;
+    //     }
+    // },
+    // error => {
+    //     var errMess = new Error(error.message);
+    //     console.log("rror"+errMess)
+    //     dispatch(recommendationsFailed(errMess))
+    //     throw errMess;
+    // })
     .then(response => response.json())
     .then(recommd => {
         const movies=recommd
