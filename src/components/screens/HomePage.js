@@ -71,24 +71,33 @@ const Homepage=(props)=>{
     console.log("homepage props"+JSON.stringify(props.recommendations))
     const[recomd_movies_data,setRecomdMoviesData]=useState([])
     const {state,dispatch}=useContext(usercontext)
+    // useEffect(()=>{
+    //     if(state&& state.reviews.length!=0){
+    //         const userId=state._id
+    //         fetch(flaskBackendURL+`/recommendation/${userId}`)
+    //         .then(res=>res.json())
+    //         .then(result=>{
+    //             const movies=result
+    //             for(var i=0;i<movies.length;i++){
+    //                 const movie=movies[i]
+    //                 const id=movie._id.$oid
+    //                 movies[i]._id=id
+    //             }
+    //             //setRecomdMoviesData(movies)  
+    //         }).catch(err=>{
+    //             console.log("err",err)
+    //         })
+    //     }
+    // },[state])
+
     useEffect(()=>{
         if(state&& state.reviews.length!=0){
-            const userId=state._id
-            fetch(flaskBackendURL+`/recommendation/${userId}`)
-            .then(res=>res.json())
-            .then(result=>{
-                const movies=result
-                for(var i=0;i<movies.length;i++){
-                    const movie=movies[i]
-                    const id=movie._id.$oid
-                    movies[i]._id=id
-                }
-                //setRecomdMoviesData(movies)  
-            }).catch(err=>{
-                console.log("err",err)
-            })
+            //alert("khg")
+            props.fetchUserReviews(state._id);
+            props.fetchMovies()
+            props.fetchRecommendations(state._id)
         }
-    },[state])
+    },[])
 
     useEffect(()=>{
         if(state&& state.reviews.length!=0){

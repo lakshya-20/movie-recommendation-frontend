@@ -12,6 +12,8 @@ export const UserReviews=(state={
             return{...state,isLoading:false,REVIEWS:[],errMess:action.payload}
         case ActionTypes.ADD_USER_REVIEWS:
             return{...state,isLoading:false,REVIEWS:action.payload,errMess:null}
+        case ActionTypes.NEW_USER_REVIEW:
+            return{...state,isLoading:false,REVIEWS:state.REVIEWS.push(action.payload),errMess:null}
         default:return state;
     }
 }

@@ -58,6 +58,11 @@ export const addUserReviews=(userReviews)=>({
     payload:userReviews
 })
 
+export const newUserReview=(userReview)=>({
+    type:ActionTypes.NEW_USER_REVIEW,
+    payload:userReview
+})
+
 export const fetchUserReviews=(userId)=>(dispatch)=>{
     dispatch(userReviewsLoading());
     return fetch(backendURL+`/api/reviews/${userId}`,{

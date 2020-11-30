@@ -10,7 +10,7 @@ import {backendURL,flaskBackendURL} from '../../Config'
 
 
 //redux
-import {fetchUserReviews}  from '../../redux/ActionCreators';
+import {fetchUserReviews,newUserReview}  from '../../redux/ActionCreators';
 import {connect} from 'react-redux';
 
 const mapStateToProps=state=>{
@@ -25,8 +25,8 @@ const mapDispatchToProps=dispatch=>({
 
 
 const MovieDetails=(props)=>{
-    console.log("dedwd"+JSON.stringify(props.userReviews))
-
+    //console.log("dedwd"+JSON.stringify(props.userReviews))
+    
     const [movieId,setMovieId]=useState(useParams().movieId)
     const [movieDetails,setMovieDetails]=useState({})
     const [reviewDetails,setReviewDetails]=useState({})
@@ -53,6 +53,7 @@ const MovieDetails=(props)=>{
     useEffect(()=>{
         
         if(state){
+            console.log("state"+JSON.stringify(state._id))
             const reviews=props.userReviews.REVIEWS
             //const reviews=state.reviews
             for(var i=0;i<reviews.length;i++){
@@ -78,6 +79,7 @@ const MovieDetails=(props)=>{
     };
     
     const flaskHandleSubmit=()=>{
+        alert("Entered")
         const userId=state._id
         fetch(flaskBackendURL+`/newReview/${userId}`,{
             
@@ -115,12 +117,14 @@ const MovieDetails=(props)=>{
             }
             else{        
                 //console.log(data)
+                newUserReview(data)
                 setIsReviewed(true)
-                localStorage.setItem("user",JSON.stringify(data.user))
-                dispatch({type:"USER",payload:data.user})
+                //localStorage.setItem("user",JSON.stringify(data.user))
+                //dispatch({type:"USER",payload:data.user})
                 toggleReviewModal()
                 flaskHandleSubmit()
                 window.location.reload(false);
+                
             }
         }).catch(err=>{
             console.log(err)
