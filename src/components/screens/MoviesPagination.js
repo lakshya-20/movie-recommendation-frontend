@@ -25,7 +25,7 @@ function RenderMovie ({movie}) {
     );
 }
 
-function App(props) {
+function MoviesPagination(props) {
     const[movies_data,setMoviesData]=useState(props.movies_data)
     const [pagination, setPagination] = useState({
         data: props.movies_data,
@@ -89,4 +89,4 @@ function App(props) {
         </div>
     );
 }
-export default App;
+export default MoviesPagination;

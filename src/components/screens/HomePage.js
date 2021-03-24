@@ -9,6 +9,25 @@ import "react-multi-carousel/lib/styles.css";
 import {Link} from 'react-router-dom';
 import { Loading } from './Loading'
 
+//redux
+import {fetchUserReviews,fetchMovies,fetchRecommendations}  from '../../redux/ActionCreators';
+import {connect} from 'react-redux';
+
+
+const mapStateToProps=state=>{
+    return{
+        userReviews:state.userReviews,
+        recommendations:state.recommendations,
+        authState:state.authState
+    }
+}
+
+const mapDispatchToProps=dispatch=>({
+    fetchUserReviews:(userId)=>dispatch(fetchUserReviews(userId)),
+    fetchMovies:()=>dispatch(fetchMovies()),
+    fetchRecommendations:(userId)=>dispatch(fetchRecommendations(userId))
+})
+
 function RenderMovie ({movie}) {
     return (
         <Card>
@@ -49,27 +68,51 @@ const responsive = {
     }
 };
 
-const Homepage=()=>{
+const Homepage=(props)=>{
+    console.log("homepage props"+JSON.stringify(props.recommendations))
     const[recomd_movies_data,setRecomdMoviesData]=useState([])
     const {state,dispatch}=useContext(usercontext)
+    // useEffect(()=>{
+    //     if(state&& state.reviews.length!=0){
+    //         const userId=state._id
+    //         fetch(flaskBackendURL+`/recommendation/${userId}`)
+    //         .then(res=>res.json())
+    //         .then(result=>{
+    //             const movies=result
+    //             for(var i=0;i<movies.length;i++){
+    //                 const movie=movies[i]
+    //                 const id=movie._id.$oid
+    //                 movies[i]._id=id
+    //             }
+    //             //setRecomdMoviesData(movies)  
+    //         }).catch(err=>{
+    //             console.log("err",err)
+    //         })
+    //     }
+    // },[state])
+
     useEffect(()=>{
+        //alert("Homepage1"+JSON.stringify(state))
         if(state&& state.reviews.length!=0){
-            const userId=state._id
-            fetch(flaskBackendURL+`/recommendation/${userId}`)
-            .then(res=>res.json())
-            .then(result=>{
-                const movies=result
-                for(var i=0;i<movies.length;i++){
-                    const movie=movies[i]
-                    const id=movie._id.$oid
-                    movies[i]._id=id
-                }
-                setRecomdMoviesData(movies)  
-            }).catch(err=>{
-                console.log("err",err)
-            })
+            props.fetchUserReviews(state._id);
+            props.fetchMovies()
+            props.fetchRecommendations(state._id)
+        }
+    },[])
+
+    useEffect(()=>{
+        //alert("HomePage2"+JSON.stringify(state))
+        if(state&& state.reviews.length!=0){
+            props.fetchUserReviews(state._id);
+            props.fetchMovies()
+            props.fetchRecommendations(state._id)
         }
     },[state])
+
+    useEffect(()=>{
+        setRecomdMoviesData(props.recommendations.RECOMMENDATIONS)
+    },[props])
+
     return(
         <div className="container">
             <div className="row">
@@ -110,4 +153,4 @@ const Homepage=()=>{
     )
 }
 
-export default Homepage;
+export default connect(mapStateToProps,mapDispatchToProps)(Homepage);

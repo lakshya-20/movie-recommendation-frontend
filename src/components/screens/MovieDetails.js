@@ -8,8 +8,25 @@ import {usercontext} from'../../App'
 import {useParams,Link} from 'react-router-dom'
 import {backendURL,flaskBackendURL} from '../../Config'
 
-const MovieDetails=({props})=>{
 
+//redux
+import {fetchUserReviews,addNewReview}  from '../../redux/ActionCreators';
+import {connect} from 'react-redux';
+
+const mapStateToProps=state=>{
+    return{
+        userReviews:state.userReviews
+    }
+}
+
+const mapDispatchToProps=dispatch=>({
+    fetchUserReviews:(userId)=>dispatch(fetchUserReviews(userId))
+})
+
+
+const MovieDetails=(props)=>{
+    //console.log("dedwd"+JSON.stringify(props.userReviews))
+    
     const [movieId,setMovieId]=useState(useParams().movieId)
     const [movieDetails,setMovieDetails]=useState({})
     const [reviewDetails,setReviewDetails]=useState({})
@@ -21,18 +38,24 @@ const MovieDetails=({props})=>{
     useEffect(()=>{
         fetch(backendURL+`/api/movies/${movieId}`,{
             headers:{
-                "Authorization":"Bearer "+localStorage.getItem("jwt")
+                "Authorization":localStorage.getItem("jwt")
             }
         }).then(res=>res.json())
         .then(result=>{
             setMovieDetails(result)
         })
     },[])
-
+    useEffect(()=>{
+        if(state){
+            props.fetchUserReviews(state._id);               
+        }
+    },[state])
     useEffect(()=>{
         
         if(state){
-            const reviews=state.reviews
+            console.log("state"+JSON.stringify(state._id))
+            const reviews=props.userReviews.REVIEWS
+            //const reviews=state.reviews
             for(var i=0;i<reviews.length;i++){
                 const review=reviews[i]
                 if(review.refMovieId._id===movieId){
@@ -43,7 +66,7 @@ const MovieDetails=({props})=>{
                 }
             }
         }
-    },[movieDetails])
+    },[props])
 
     const toggleReviewModal=()=>{
         setIsReviewModalOpen(!isReviewModalOpen)
@@ -77,7 +100,7 @@ const MovieDetails=({props})=>{
             method:"post",
             headers:{
                 "Content-Type":"application/json",
-                "Authorization":"Bearer "+localStorage.getItem("jwt")
+                "Authorization":localStorage.getItem("jwt")
             },
             body:JSON.stringify({
                 rating,
@@ -92,13 +115,16 @@ const MovieDetails=({props})=>{
                 alert(JSON.stringify(data.error))
             }
             else{        
-                //console.log(data)
+                addNewReview(data.newReview)
                 setIsReviewed(true)
-                localStorage.setItem("user",JSON.stringify(data.user))
-                dispatch({type:"USER",payload:data.user})
+                var stateUser=state
+                stateUser.reviews.push(data.newReview);
+                localStorage.setItem("user",JSON.stringify(stateUser))
+                //dispatch({type:"USER",payload:stateUser})
                 toggleReviewModal()
                 flaskHandleSubmit()
                 window.location.reload(false);
+                
             }
         }).catch(err=>{
             console.log(err)
@@ -195,9 +221,11 @@ const MovieDetails=({props})=>{
                         }
                     </>
                 </div>
+
+
             </div>
         </div>
     )
 }
 
-export default MovieDetails;
+export default connect(mapStateToProps,mapDispatchToProps)(MovieDetails);

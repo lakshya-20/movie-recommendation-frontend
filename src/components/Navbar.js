@@ -8,7 +8,27 @@ import { NavLink, useHistory} from 'react-router-dom';
 import {usercontext} from'../App'
 import M from 'materialize-css'
 import {backendURL} from '../Config'
-const Header =()=>{
+
+//redux
+import {fetchUserReviews,fetchMovies,fetchRecommendations,addAuthState,authStateLogout}  from '../redux/ActionCreators';
+import {connect} from 'react-redux';
+
+
+const mapStateToProps=state=>{
+    return{
+        authState:state.authState
+    }
+}
+
+const mapDispatchToProps=dispatch=>({
+    fetchUserReviews:(userId)=>dispatch(fetchUserReviews(userId)),
+    fetchMovies:()=>dispatch(fetchMovies()),
+    fetchRecommendations:(userId)=>dispatch(fetchRecommendations(userId)),
+    addAuthState:(authState)=>dispatch(addAuthState(authState)),
+    authStateLogout:()=>dispatch(authStateLogout())
+})
+
+const Header =(props)=>{
     const [isNavOpen,setIsNavOpen]=useState(false);
     const [isLoginModalOpen,setIsLoginModalOpen]=useState(false);
     const [isSignupModalOpen,setIsSignupModalOpen]=useState(false);
@@ -76,6 +96,7 @@ const Header =()=>{
                 //M.toast({html:data.message,classes:"#43a047 green darken-1"})
                 //signal()
                 toggleSignupModal();
+                //props.addAuthState(data)
                 history.push('/')
             }
         }).catch(err=>{
@@ -108,11 +129,14 @@ const Header =()=>{
                 M.toast({html: data.error,classes:"#c62828 red darken-3"})
             }
             else{
+                //props.addAuthState(data)
                 localStorage.setItem("jwt",data.token)
                 localStorage.setItem("user",JSON.stringify(data.user))
                 dispatch({type:"USER",payload:data.user})
                 //M.toast({html:"signedin successfully",classes:"#43a047 green darken-1"})
                 toggleLoginModal();
+                
+                //alert("navbar"+JSON.stringify(props.authState))
                 history.push('/')
             }
         }).catch(err=>{
@@ -126,6 +150,7 @@ const Header =()=>{
         localStorage.clear()
         dispatch({type:"CLEAR"})
         window.location.reload(false);
+        props.authStateLogout();
         history.push('/')
     }
     const onChange=(e)=>{
@@ -305,4 +330,4 @@ const Header =()=>{
 
 }
 
-export default Header
+export default connect(mapStateToProps,mapDispatchToProps)(Header);
