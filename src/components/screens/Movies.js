@@ -47,7 +47,7 @@ import {usercontext} from'../../App'
         useEffect(()=>{
             // fetch(backendURL+'/api/movies',{
             //     headers:{
-            //         "Authorization":"Bearer "+localStorage.getItem("jwt")
+            //         "Authorization":localStorage.getItem("jwt")
             //     }
             // }).then(res=>res.json())
             // .then(result=>{

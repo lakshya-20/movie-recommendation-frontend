@@ -21,7 +21,7 @@ export const fetchMovies=()=>(dispatch)=>{
     dispatch(moviesLoading());
     return fetch(backendURL+'/api/movies',{
         headers:{
-            "Authorization":"Bearer "+localStorage.getItem("jwt")
+            "Authorization":localStorage.getItem("jwt")
         }
     })
     .then(response => {
@@ -67,7 +67,7 @@ export const fetchUserReviews=(userId)=>(dispatch)=>{
     dispatch(userReviewsLoading());
     return fetch(backendURL+`/api/reviews/${userId}`,{
         headers:{
-            "Authorization":"Bearer "+localStorage.getItem("jwt")
+            "Authorization":localStorage.getItem("jwt")
         }
     })
     .then(response => {

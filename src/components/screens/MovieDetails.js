@@ -38,7 +38,7 @@ const MovieDetails=(props)=>{
     useEffect(()=>{
         fetch(backendURL+`/api/movies/${movieId}`,{
             headers:{
-                "Authorization":"Bearer "+localStorage.getItem("jwt")
+                "Authorization":localStorage.getItem("jwt")
             }
         }).then(res=>res.json())
         .then(result=>{
@@ -100,7 +100,7 @@ const MovieDetails=(props)=>{
             method:"post",
             headers:{
                 "Content-Type":"application/json",
-                "Authorization":"Bearer "+localStorage.getItem("jwt")
+                "Authorization":localStorage.getItem("jwt")
             },
             body:JSON.stringify({
                 rating,
@@ -221,11 +221,7 @@ const MovieDetails=(props)=>{
                         }
                     </>
                 </div>
-                <div>
-                    {
-                        JSON.stringify(props)
-                    }
-                </div>
+
 
             </div>
         </div>
