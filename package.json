@@ -2,7 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:5000",
+  "proxy": "http://localhost:5000/",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
@@ -14,6 +14,7 @@
     "faker": "^5.1.0",
     "font-awesome": "^4.7.0",
     "materialize-css": "^1.0.0",
+    "query-string": "^7.0.0",
     "react": "^16.14.0",
     "react-animation-components": "^3.0.0",
     "react-dom": "^16.14.0",
