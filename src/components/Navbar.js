@@ -146,6 +146,10 @@ const Header =(props)=>{
         event.preventDefault();
     }
 
+    const handleGoogleLogin=()=>{
+        window.open(backendURL+"/api/auth/google", "_self");
+    }
+
     const handleLogout=(e)=>{
         localStorage.clear()
         dispatch({type:"CLEAR"})
@@ -216,6 +220,7 @@ const Header =(props)=>{
                         <div className="d-flex justify-content-around">
                             <Button type="submit" value="submit" color="primary" >Sumbit</Button>
                             <Button color="primary" onClick={()=>toggleLoginModal,toggleSignupModal}>SignUp</Button>
+                            <Button color="primary" onClick={()=>handleGoogleLogin()}>Google</Button>
                         </div>
                         
                     </Form>
@@ -270,7 +275,8 @@ const Header =(props)=>{
                         </FormGroup>
                         <div className="d-flex justify-content-around">
                             <Button type="submit" value="submit" color="primary">Submit</Button>
-                            <Button color="primary" onClick={()=>toggleSignupModal,toggleLoginModal}>Login</Button>    
+                            <Button color="primary" onClick={()=>toggleSignupModal,toggleLoginModal}>Login</Button>
+                            <Button color="primary" onClick={()=>handleGoogleLogin()}>Google</Button>    
                         </div>
                     </Form>
                 </ModalBody>

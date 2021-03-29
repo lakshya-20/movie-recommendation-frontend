@@ -53,7 +53,7 @@ const MovieDetails=(props)=>{
     useEffect(()=>{
         
         if(state){
-            console.log("state"+JSON.stringify(state._id))
+            //console.log("state"+JSON.stringify(state._id))
             const reviews=props.userReviews.REVIEWS
             //const reviews=state.reviews
             for(var i=0;i<reviews.length;i++){
