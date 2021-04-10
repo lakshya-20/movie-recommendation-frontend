@@ -102,7 +102,7 @@ import {usercontext} from'../../App'
                 </div> */}
                 <>
                 {
-                    movies_data.length>100?
+                    movies_data.length>10?
                         <MoviesPagination movies_data={movies_data}/>
                     :
                         <div className="container">
