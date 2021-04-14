@@ -78,9 +78,10 @@ const MovieDetails=(props)=>{
         setNewReview({...newReview,[name]:value})
     };
     
-    const flaskHandleSubmit=async()=>{
-        const userId=state._id
-        const res=await fetch(flaskBackendURL+`/newReview/${userId}`)
+    const flaskHandleSubmit=()=>{
+        const userId=state._id        
+        const res=fetch(flaskBackendURL+`/newReview/${userId}`);
+        //alert(res);
     }
 
     const handleSubmit=(event)=> {

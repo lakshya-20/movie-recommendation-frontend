@@ -69,7 +69,7 @@ const responsive = {
 };
 
 const Homepage=(props)=>{
-    console.log("homepage props"+JSON.stringify(props.recommendations))
+    //console.log("homepage props"+JSON.stringify(props.recommendations))
     const[recomd_movies_data,setRecomdMoviesData]=useState([])
     const {state,dispatch}=useContext(usercontext)
     // useEffect(()=>{
@@ -119,7 +119,7 @@ const Homepage=(props)=>{
             <Breadcrumb>
                 <BreadcrumbItem active>Home</BreadcrumbItem>
             </Breadcrumb>
-                <h3 className="text-center col-12">Recommendations for you</h3>
+                <h3 className="text-center col-12">Recommendations</h3>
                 <hr />
             </div> 
             <>
@@ -141,11 +141,27 @@ const Homepage=(props)=>{
                             </div>
                         </div>
                     :
-                        <div className="container">
-                            <div className="row text-center pt-5">            
-                                <Loading />
-                            </div>
-                        </div>
+
+                        <>
+                        {
+                            state?
+                                <div className="container">
+                                    <div className="row justify-content-center mt-5">  
+                                        <span className="text-secondary bg-light" style={{fontFamily:"Lucida Console"}}>
+                                        {"Rate few movies to get recommedations"}
+                                        </span>                                                  
+                                    </div>
+                                </div>    
+                            :
+                                <div className="container">
+                                    <div className="row justify-content-center mt-5">  
+                                        <span className="text-secondary bg-light" style={{fontFamily:"Lucida Console"}}>
+                                        {"Singin to get recommedations"}
+                                        </span>                                                  
+                                    </div>
+                                </div>
+                        }
+                        </>                    
                 }
                 </>
         </div>

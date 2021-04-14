@@ -285,7 +285,7 @@ const Header =(props)=>{
                 <div className="container">
                     {()=>signal()}
                     <NavbarToggler onClick={toggleNav} />
-                    <NavbarBrand className="mr-auto" href={state?"/":"/"}><img src='assets/images/logo.png' height="30" width="41" alt='Flick' /></NavbarBrand>
+                    <NavbarBrand className="mr-auto" href={state?"/":"/"}><img src='logo.png'/> <span style={{fontFamily: "Lucida Console"}}> Flick</span></NavbarBrand>
                     
                         <>
                         {
@@ -310,9 +310,17 @@ const Header =(props)=>{
                                 </Collapse>
                             : 
                                 <Collapse isOpen={isNavOpen} navbar>
+                                    <Nav navbar>
+                                        <NavItem>
+                                            <NavLink className="nav-link" to='/aboutus'><span className="fa fa-info fa-lg"></span> About Us</NavLink>
+                                        </NavItem>                                        
+                                        <NavItem>
+                                            <NavLink className="nav-link" to='/contactus'><span className="fa fa-address-card fa-lg"></span> Contact Us</NavLink>
+                                        </NavItem>
+                                    </Nav>
                                     <Nav className="ml-auto" navbar>
                                         <NavItem>
-                                            <Button outline onClick={()=>toggleLoginModal()}><span className="fa fa-sign-in fa-lg"></span> User</Button>
+                                            <Button outline onClick={()=>toggleLoginModal()}><span className="fa fa-user fa-lg"></span> Login</Button>
                                         </NavItem>
                                     </Nav>  
                                 </Collapse> 
@@ -323,9 +331,9 @@ const Header =(props)=>{
             <Jumbotron>
                 <div className="container">
                     <div className="row row-header">
-                        <div className="col-12 col-sm-6">
+                        <div className="col-12 col-sm-12">
                             <h1>Flick</h1>
-                            <p>Flick is a Content-based recommendation system to provide you an enriching experience for the movie bucket list.</p>
+                            <p>Flick Movie Recommendation is a content-based recommendation system that will provide you with movie recommendations based on your past interaction with the system.</p>
                         </div>
                     </div>
                 </div>
