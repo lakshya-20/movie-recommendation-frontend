@@ -41,13 +41,13 @@ const Contact=()=>{
 
                         </developer>
                     </div>
-                    <div className="col-12 col-sm-11 offset-sm-1">
+                    {/* <div className="col-12 col-sm-11 offset-sm-1">
                         <div className="btn-group" role="group">
                             <a role="button" className="btn btn-primary" href=""><i className="fa fa-phone"></i> Call</a>
                             <a role="button" className="btn btn-info"><i className="fa fa-skype"></i> Skype</a>
                             <a role="button" className="btn btn-success" href="info@flick.com"><i className="fa fa-envelope-o"></i> Email</a>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
         </div>
     )
