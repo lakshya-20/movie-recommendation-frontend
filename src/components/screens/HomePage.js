@@ -28,6 +28,8 @@ const mapDispatchToProps=dispatch=>({
     fetchRecommendations:(userId)=>dispatch(fetchRecommendations(userId))
 })
 
+
+
 function RenderMovie ({movie}) {
     return (
         <Card>
@@ -47,6 +49,8 @@ function RenderMovie ({movie}) {
         </Card>
     );
 }
+
+
 
 const responsive = {
     superLargeDesktop: {
@@ -69,9 +73,10 @@ const responsive = {
 };
 
 const Homepage=(props)=>{
-    console.log("homepage props"+JSON.stringify(props.recommendations))
+    //console.log("homepage props"+JSON.stringify(props.recommendations))
     const[recomd_movies_data,setRecomdMoviesData]=useState([])
     const {state,dispatch}=useContext(usercontext)
+    const [dummyRecommendations,setDummyrecommendations]=useState([]);
     // useEffect(()=>{
     //     if(state&& state.reviews.length!=0){
     //         const userId=state._id
@@ -91,13 +96,29 @@ const Homepage=(props)=>{
     //     }
     // },[state])
 
+    const getDummyRecommendation=()=>{      
+        var res=[];
+        res=fetch(backendURL+'/api/movies/recommendations',{
+            method:"get",
+            headers:{
+                "Content-Type":"application/json"
+            } 
+        }).then(res=>res.json())
+        .then(data=>{                    
+            setDummyrecommendations(data);            
+        }).catch(err=>{
+            console.log(err)
+        })              
+    }
+
     useEffect(()=>{
         //alert("Homepage1"+JSON.stringify(state))
         if(state&& state.reviews.length!=0){
             props.fetchUserReviews(state._id);
             props.fetchMovies()
-            props.fetchRecommendations(state._id)
+            props.fetchRecommendations(state._id)            
         }
+        getDummyRecommendation();
     },[])
 
     useEffect(()=>{
@@ -113,13 +134,15 @@ const Homepage=(props)=>{
         setRecomdMoviesData(props.recommendations.RECOMMENDATIONS)
     },[props])
 
+    
+
     return(
         <div className="container">
             <div className="row">
             <Breadcrumb>
                 <BreadcrumbItem active>Home</BreadcrumbItem>
             </Breadcrumb>
-                <h3 className="text-center col-12">Recommendations for you</h3>
+                <h3 className="text-center col-12">Recommendations</h3>
                 <hr />
             </div> 
             <>
@@ -141,11 +164,32 @@ const Homepage=(props)=>{
                             </div>
                         </div>
                     :
-                        <div className="container">
-                            <div className="row text-center pt-5">            
-                                <Loading />
+
+                    <div>
+                        {
+                            dummyRecommendations.length!=0?
+                            <div className="row justify-content-center">
+                                <div className="col-12">
+                                    <Carousel responsive={responsive}>
+                                        {
+                                            dummyRecommendations.map((movie) => {
+                                                return (
+                                                    <div className="col-12 border"  key={movie._id}>
+                                                        <RenderMovie movie={movie}  />
+                                                    </div>
+                                                );
+                                            })
+                                        }
+                                    </Carousel>
+                                </div>
                             </div>
-                        </div>
+                            :
+                            <div className="text-center">
+                                <Loading/>
+                            </div>
+
+                        }
+                    </div>               
                 }
                 </>
         </div>

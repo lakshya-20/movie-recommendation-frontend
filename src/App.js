@@ -10,6 +10,7 @@ import Movies from './components/screens/Movies';
 import MovieDetails from './components/screens/MovieDetails'
 import Contact from './components/screens/Contact'
 import About from './components/screens/About';
+import Footer from './components/Footer';
 
 import './App.css';
 import {reducer,initialState} from './reducers/userReducer'
@@ -95,6 +96,7 @@ function App() {
         <BrowserRouter>
           <NavBar />
           <Routing />
+          <Footer/>
         </BrowserRouter>
       </Provider>
     </usercontext.Provider>
