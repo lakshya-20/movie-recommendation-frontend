@@ -283,23 +283,22 @@ const Header =(props)=>{
             </Modal>
             <Navbar dark expand="md">
                 <div className="container">
-                    {()=>signal()}
-                    <NavbarToggler onClick={toggleNav} />
+                    {()=>signal()}                    
                     <NavbarBrand className="mr-auto" href={state?"/":"/"}><img src='logo.png'/> <span style={{fontFamily: "Lucida Console"}}> Flick</span></NavbarBrand>
-                    
+                    <NavbarToggler onClick={toggleNav} />
                         <>
                         {
                             state ?
                                 <Collapse isOpen={isNavOpen} navbar>
                                     <Nav navbar>
                                         <NavItem>
-                                            <NavLink className="nav-link" to='/aboutus'><span className="fa fa-info fa-lg"></span> About Us</NavLink>
+                                            <NavLink className="nav-link" to='/aboutus'><span className="fa fa-info fa-lg"></span> About</NavLink>
                                         </NavItem>
                                         <NavItem>
-                                            <NavLink className="nav-link"  to='/movies'><span className="fa fa-list fa-lg"></span> Movies</NavLink>
+                                            <NavLink className="nav-link"  to='/movies'><span className="fa fa-film fa-lg"></span> Movies</NavLink>
                                         </NavItem>
                                         <NavItem>
-                                            <NavLink className="nav-link" to='/contactus'><span className="fa fa-address-card fa-lg"></span> Contact Us</NavLink>
+                                            <NavLink className="nav-link" to='/contactus'><span className="fa fa-address-card fa-lg"></span> Contact</NavLink>
                                         </NavItem>
                                     </Nav>
                                     <Nav className="ml-auto" navbar>
@@ -312,10 +311,13 @@ const Header =(props)=>{
                                 <Collapse isOpen={isNavOpen} navbar>
                                     <Nav navbar>
                                         <NavItem>
-                                            <NavLink className="nav-link" to='/aboutus'><span className="fa fa-info fa-lg"></span> About Us</NavLink>
-                                        </NavItem>                                        
+                                            <NavLink className="nav-link" to='/aboutus'><span className="fa fa-info fa-lg"></span> About</NavLink>
+                                        </NavItem> 
                                         <NavItem>
-                                            <NavLink className="nav-link" to='/contactus'><span className="fa fa-address-card fa-lg"></span> Contact Us</NavLink>
+                                            <NavLink className="nav-link"  to='/movies'><span className="fa fa-film fa-lg"></span> Movies</NavLink>
+                                        </NavItem>                                       
+                                        <NavItem>
+                                            <NavLink className="nav-link" to='/contactus'><span className="fa fa-address-card fa-lg"></span> Contact</NavLink>
                                         </NavItem>
                                     </Nav>
                                     <Nav className="ml-auto" navbar>
