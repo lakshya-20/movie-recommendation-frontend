@@ -1,6 +1,6 @@
 <br />
 <p align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
+  <a href="https://github.com/lakshya-20/flick-frontend">
     <img src="public/logo.png" alt="Logo" width="60" height="60">
   </a>
 
@@ -8,8 +8,6 @@
 
   <p align="center">
     Flick Movie Recommendation is a content-boosted recommendation system that provides users with movie recommendations based on their past interaction with the system.
-    <br />
-    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://flick-frontend.herokuapp.com/">View Demo</a>
@@ -51,7 +49,9 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-![Application Homepage](public/demo1.png)
+<a href="https://github.com/lakshya-20/flick-frontend">
+    <img src="public/demo1.png" alt="demo">
+</a>
 
 The aim of this project is to build a web based application that will recommend movies to users that they might want to watch.
 <br>
@@ -145,5 +145,5 @@ Distributed under the GNU General Public License v3.0. See `LICENSE` for more in
 
 Lakshya Bansal - [lakshyabansal](https://www.linkedin.com/in/lakshyabansal/) 
 
-Project Link: [https://github.com/lakshya-20/flick-frontend](https://github.com/your_username/repo_name)
+Project Link: [https://github.com/lakshya-20/flick-frontend](https://github.com/lakshya-20/flick-frontend)
 
