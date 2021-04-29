@@ -50,7 +50,7 @@
 ## About The Project
 
 <a href="https://github.com/lakshya-20/flick-frontend">
-    <img src="public/demo1.png" alt="demo">
+    <img src="public/demo1.PNG" alt="demo">
 </a>
 
 The aim of this project is to build a web based application that will recommend movies to users that they might want to watch.
