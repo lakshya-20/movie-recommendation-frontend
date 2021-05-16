@@ -11,6 +11,7 @@ import MovieDetails from './components/screens/MovieDetails'
 import Contact from './components/screens/Contact'
 import About from './components/screens/About';
 import Footer from './components/Footer';
+import CacheBuster from './CacheBuster';
 
 import './App.css';
 import {reducer,initialState} from './reducers/userReducer'
@@ -90,16 +91,34 @@ const Routing=()=>{
 function App() {
   //localStorage.clear()
   const [state,dispatch]=useReducer(reducer,initialState)
-  return (
+  const appContent=(
     <usercontext.Provider value={{state,dispatch}}>
-      <Provider store={store}>
-        <BrowserRouter>
-          <NavBar />
-          <Routing />
-          <Footer/>
-        </BrowserRouter>
-      </Provider>
-    </usercontext.Provider>
+            <Provider store={store}>
+              <BrowserRouter>
+                <NavBar />
+                <Routing />
+                <Footer/>
+              </BrowserRouter>
+            </Provider>
+          </usercontext.Provider>
+  )
+  if(process.env.NODE_ENV!="production"){
+    return (
+      appContent
+    )
+  }
+  return (        
+    <CacheBuster>
+      {({ loading, isLatestVersion, refreshCacheAndReload }) => {
+        if (loading) return null;
+        if (!loading && !isLatestVersion) {          
+          refreshCacheAndReload();
+        }
+        return (
+          appContent
+        );
+      }}      
+    </CacheBuster>
     
   );
 }

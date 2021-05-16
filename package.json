@@ -30,6 +30,8 @@
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
+    "generate-build-version": "node generate-build-version",
+    "prebuild": "npm run generate-build-version",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
