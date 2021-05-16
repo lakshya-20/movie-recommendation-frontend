@@ -2,12 +2,11 @@ import React, {Component,useState,useEffect,useContext} from 'react'
 import { Modal,ModalHeader, ModalBody,Form, 
     FormGroup, Input,Label, 
     Breadcrumb, BreadcrumbItem,Button } from 'reactstrap';
-import StarRatings from 'react-star-ratings';
 import BeautyStars from 'beauty-stars';
 import {usercontext} from'../../App'
 import {useParams,Link} from 'react-router-dom'
 import {backendURL,flaskBackendURL} from '../../Config'
-
+import {toast} from 'react-toastify';
 
 //redux
 import {fetchUserReviews,addNewReview}  from '../../redux/ActionCreators';
@@ -35,7 +34,7 @@ const MovieDetails=(props)=>{
     const [newReview,setNewReview]=useState({})
     const {state,dispatch}=useContext(usercontext)
     
-    useEffect(()=>{
+    useEffect(()=>{                
         fetch(backendURL+`/api/movies/${movieId}`,{
             headers:{
                 "Authorization":localStorage.getItem("jwt")
@@ -52,8 +51,7 @@ const MovieDetails=(props)=>{
     },[state])
     useEffect(()=>{
         
-        if(state){
-            //console.log("state"+JSON.stringify(state._id))
+        if(state){            
             const reviews=props.userReviews.REVIEWS
             //const reviews=state.reviews
             for(var i=0;i<reviews.length;i++){
@@ -61,7 +59,6 @@ const MovieDetails=(props)=>{
                 if(review.refMovieId._id===movieId){
                     setReviewDetails(review)
                     setIsReviewed(true)
-
                     break;
                 }
             }
@@ -108,7 +105,8 @@ const MovieDetails=(props)=>{
             if(data.error){
                 alert(JSON.stringify(data.error))
             }
-            else{        
+            else{       
+                toast.success("Review Added"); 
                 addNewReview(data.newReview)
                 setIsReviewed(true)
                 var stateUser=state
@@ -117,8 +115,7 @@ const MovieDetails=(props)=>{
                 //dispatch({type:"USER",payload:stateUser})
                 toggleReviewModal()
                 flaskHandleSubmit()
-                window.location.reload(false);
-                
+                window.location.reload(false);                
             }
         }).catch(err=>{
             console.log(err)
@@ -130,14 +127,22 @@ const MovieDetails=(props)=>{
 
 
     return(
-        <div className="container">
+        <div className="container">            
             <Modal isOpen={isReviewModalOpen} toggle={toggleReviewModal}>
                 <ModalHeader toggle={toggleReviewModal}>Review</ModalHeader>
                 <ModalBody>
                     <Form onSubmit={handleSubmit}>
                         <FormGroup>
                             <Label htmlFor="rating">Rating</Label>
-                            <Input type="text" id="rating" name="rating" onChange={onChange} />
+                            {/* <Input type="text" id="rating" name="rating" onChange={onChange} /> */}
+                            <BeautyStars
+                                value={newReview.rating}
+                                maxStars={10}
+                                size={"15px"}
+                                activeColor={"black"}
+                                inactiveColor={"grey"}
+                                onChange={value => setNewReview({...newReview,rating:value})}
+                            />
                         </FormGroup>
                         <FormGroup>
                             <Label htmlFor="comment">Comment</Label>

@@ -6,8 +6,8 @@ import { Navbar, NavbarBrand, Nav, NavbarToggler,
     Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { NavLink, useHistory} from 'react-router-dom';
 import {usercontext} from'../App'
-import M from 'materialize-css'
 import {backendURL} from '../Config'
+import {toast} from 'react-toastify';
 
 //redux
 import {fetchUserReviews,fetchMovies,fetchRecommendations,addAuthState,authStateLogout}  from '../redux/ActionCreators';
@@ -68,13 +68,13 @@ const Header =(props)=>{
         const name=user.name;
         const gender=user.gender
         if(!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)){
-            M.toast({html: "invalid email",classes:"#c62828 red darken-3"})
+            toast.error("Invalid email");
             return
             //signal("invalid email","danger")
             
         }
         if(password!==repassword){
-            M.toast({html:"password does match",classes:"#c62828 red darken-3",displayLength:1500})
+            toast.error("Password does not match");            
             return
         }
         fetch(backendURL+"/api/auth/signup",{
@@ -86,7 +86,7 @@ const Header =(props)=>{
         }).then(res=>res.json())
         .then(data=>{
             if(data.error){
-                M.toast({html: data.error,classes:"#c62828 red darken-3"})
+                toast.error(data.error.message);
             }
             else{        
                 //console.log(data)
@@ -97,10 +97,11 @@ const Header =(props)=>{
                 //signal()
                 toggleSignupModal();
                 //props.addAuthState(data)
+                toast.success("Signup Success");
                 history.push('/')
             }
         }).catch(err=>{
-            console.log(err)
+            toast.error("Some error occured");
         })
         
         event.preventDefault();
@@ -110,7 +111,7 @@ const Header =(props)=>{
         const email=user.email;
         const password=user.password;
         if(!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)){
-            M.toast({html: "invalid email",classes:"#c62828 red darken-3"})
+            toast.error("Invalid email");
             return
         }
         fetch(backendURL+"/api/auth/signin",{
@@ -124,23 +125,19 @@ const Header =(props)=>{
             })
         }).then(res=>res.json())
         .then(data=>{
-            if(data.error){
-                alert(data.error);
-                M.toast({html: data.error,classes:"#c62828 red darken-3"})
+            if(data.error){                
+                toast.error(data.error.message);
             }
-            else{
-                //props.addAuthState(data)
+            else{                
                 localStorage.setItem("jwt",data.token)
                 localStorage.setItem("user",JSON.stringify(data.user))
                 dispatch({type:"USER",payload:data.user})
-                //M.toast({html:"signedin successfully",classes:"#43a047 green darken-1"})
                 toggleLoginModal();
-                
-                //alert("navbar"+JSON.stringify(props.authState))
+                toast.success("Login Success");
                 history.push('/')
             }
         }).catch(err=>{
-            console.log(err)
+            toast.error("Some error occured");
         })
         
         event.preventDefault();
@@ -155,6 +152,7 @@ const Header =(props)=>{
         dispatch({type:"CLEAR"})
         window.location.reload(false);
         props.authStateLogout();
+        toast.success("Logout Success");
         history.push('/')
     }
     const onChange=(e)=>{
