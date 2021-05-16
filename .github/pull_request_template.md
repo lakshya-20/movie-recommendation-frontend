@@ -1,0 +1,20 @@
+# Description
+
+Include a summary of the change and which issue is fixed. List any dependencies that are required for this change.
+
+Fixes # (issue)
+
+## Type of change
+
+Please delete options that are not relevant.
+
+- [ ] Updated UI/UX
+- [ ] Improved the business logic of code
+- [ ] Added new feature
+- [ ] Other
+
+## Checklist:
+
+- [ ] I have performed a self-review of my own code
+- [ ] I have commented my code, particularly in hard-to-understand areas
+- [ ] My changes generate no new warnings
