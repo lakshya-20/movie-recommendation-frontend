@@ -5,7 +5,6 @@ import M from 'materialize-css'
 
 import NavBar from './components/Navbar'
 import HomePage from './components/screens/HomePage';
-import Login from './components/screens/Login';
 import Movies from './components/screens/Movies';
 import MovieDetails from './components/screens/MovieDetails'
 import Contact from './components/screens/Contact'
@@ -84,7 +83,6 @@ const Routing=()=>{
       <Route path="/aboutus">
         <About />
       </Route>
-      
     </Switch>
   );
 }

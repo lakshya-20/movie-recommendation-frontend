@@ -112,8 +112,7 @@ const Homepage=(props)=>{
                 </div>
             :
                 <div>
-                    {
-                        dummyRecommendations.length!=0?
+                    {dummyRecommendations.length!=0?
                         <div className="row justify-content-center">
                             <div className="col-12">
                                 <Carousel responsive={responsive}>
@@ -129,11 +128,10 @@ const Homepage=(props)=>{
                                 </Carousel>
                             </div>
                         </div>
-                        :
+                    :
                         <div className="text-center">
                             <Loading/>
                         </div>
-
                     }
                 </div>               
             }
