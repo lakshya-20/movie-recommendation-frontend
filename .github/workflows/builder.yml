@@ -7,7 +7,7 @@ on:
     branches: [ development ]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     strategy:
@@ -28,3 +28,13 @@ jobs:
 
       - name: Run the tests
         run: npm run test
+  build:
+    name: Heroku Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "flick-frontend"
+          heroku_email: "bansallakshya94128@gmail.com"
