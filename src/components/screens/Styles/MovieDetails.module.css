@@ -1,0 +1,17 @@
+.movie_title {
+    color: white;
+    font-weight: bold;
+}
+.movie_genres {
+    color: white;
+}
+.your_review {
+    color: #cc0000;
+}
+.rate_btn {
+    background-color: #333333;
+    border: #4d4d4d solid 3px;
+}
+.rate_btn:hover {
+    background-color: inherit;
+}

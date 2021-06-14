@@ -96,7 +96,7 @@ function App() {
             <Provider store={store}>
               <BrowserRouter>
                 <NavBar />
-                <Routing />
+                <Routing/>
                 <Footer/>
               </BrowserRouter>
             </Provider>

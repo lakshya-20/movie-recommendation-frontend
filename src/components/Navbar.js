@@ -1,6 +1,6 @@
-import React, {useContext,useState,useEffect} from 'react'
+import React, {useContext,useState} from 'react'
 import { Navbar, NavbarBrand, Nav, NavbarToggler, 
-    Collapse, NavItem, Jumbotron,Button, Modal, 
+    Collapse, NavItem,Button, Modal, 
     ModalHeader, ModalBody,Form, FormGroup, Input, 
     Toast,ToastHeader,Label,
     Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
@@ -89,7 +89,6 @@ const Header =(props)=>{
                 toast.error(data.error.message);
             }
             else{        
-                //console.log(data)
                 localStorage.setItem("jwt",data.token)
                 localStorage.setItem("user",JSON.stringify(data.user))
                 dispatch({type:"USER",payload:data.user})
@@ -166,7 +165,6 @@ const Header =(props)=>{
         return(
             <Toast isOpen={true}  id="toast-container" >
                 <ToastHeader icon="success">
-                    jhkj
                 </ToastHeader>
             </Toast>
         )
@@ -201,9 +199,9 @@ const Header =(props)=>{
     }
 
     return(
-        <div>
+        <div className="pb-3">
             {/* {console.log(state)} */}
-            <Modal isOpen={isLoginModalOpen} toggle={toggleLoginModal}>
+            <Modal isOpen={isLoginModalOpen} toggle={toggleLoginModal} className="modal-dialog-centered">
                 <ModalHeader toggle={toggleLoginModal}>Login</ModalHeader>
                 <ModalBody>
                     <Form onSubmit={handleLogin}>
@@ -224,7 +222,7 @@ const Header =(props)=>{
                     </Form>
                 </ModalBody>
             </Modal>
-            <Modal isOpen={isSignupModalOpen} toggle={toggleSignupModal}>
+            <Modal isOpen={isSignupModalOpen} toggle={toggleSignupModal} className="modal-dialog-centered">
                 <ModalHeader toggle={toggleSignupModal}>SignUp</ModalHeader>
                 <ModalBody>
                     <Form onSubmit={handleSignup}>
@@ -281,22 +279,30 @@ const Header =(props)=>{
             </Modal>
             <Navbar dark expand="md">
                 <div className="container">
-                    {()=>signal()}                    
-                    <NavbarBrand className="mr-auto" href={state?"/":"/"}><img src='logo.png'/> <span style={{fontFamily: "Lucida Console"}}> Flick</span></NavbarBrand>
-                    <NavbarToggler onClick={toggleNav} />
+                    {/* {()=>signal()}*/}
+                    <NavbarBrand className="mr-auto" href={state?"/#":"/#"}>
+                        <img src='logo.png'/> <span style={{fontFamily: "Lucida Console"}}> Flick</span>
+                    </NavbarBrand>
+                    <NavbarToggler onClick={toggleNav} className="navbar-wrapper">
+                        {isNavOpen?
+                            <i className="fa fa-times"></i>
+                        :
+                            <i className="fa fa-bars"></i>
+                        }
+                    </NavbarToggler>
                         <>
                         {
                             state ?
                                 <Collapse isOpen={isNavOpen} navbar>
                                     <Nav navbar>
                                         <NavItem>
-                                            <NavLink className="nav-link" to='/aboutus'><span className="fa fa-info fa-lg"></span> About</NavLink>
+                                            <NavLink className="nav-link" to='/aboutus' onClick={toggleNav}><span className="fa fa-info fa-lg"></span> About</NavLink>
                                         </NavItem>
                                         <NavItem>
-                                            <NavLink className="nav-link"  to='/movies'><span className="fa fa-film fa-lg"></span> Movies</NavLink>
+                                            <NavLink className="nav-link"  to='/movies' onClick={toggleNav}><span className="fa fa-film fa-lg"></span> Movies</NavLink>
                                         </NavItem>
                                         <NavItem>
-                                            <NavLink className="nav-link" to='/contactus'><span className="fa fa-address-card fa-lg"></span> Contact</NavLink>
+                                            <NavLink className="nav-link" to='/contactus' onClick={toggleNav}><span className="fa fa-address-card fa-lg"></span> Contact</NavLink>
                                         </NavItem>
                                     </Nav>
                                     <Nav className="ml-auto" navbar>
@@ -306,21 +312,21 @@ const Header =(props)=>{
                                     </Nav>
                                 </Collapse>
                             : 
-                                <Collapse isOpen={isNavOpen} navbar>
+                                <Collapse isOpen={isNavOpen} navbar onClick={toggleNav}>
                                     <Nav navbar>
                                         <NavItem>
-                                            <NavLink className="nav-link" to='/aboutus'><span className="fa fa-info fa-lg"></span> About</NavLink>
+                                            <NavLink className="nav-link" to='/aboutus' onClick={toggleNav}><span className="fa fa-info fa-lg"></span> About</NavLink>
                                         </NavItem> 
                                         <NavItem>
-                                            <NavLink className="nav-link"  to='/movies'><span className="fa fa-film fa-lg"></span> Movies</NavLink>
+                                            <NavLink className="nav-link"  to='/movies' onClick={toggleNav}><span className="fa fa-film fa-lg"></span> Movies</NavLink>
                                         </NavItem>                                       
                                         <NavItem>
-                                            <NavLink className="nav-link" to='/contactus'><span className="fa fa-address-card fa-lg"></span> Contact</NavLink>
+                                            <NavLink className="nav-link" to='/contactus' onClick={toggleNav}><span className="fa fa-address-card fa-lg"></span> Contact</NavLink>
                                         </NavItem>
                                     </Nav>
                                     <Nav className="ml-auto" navbar>
                                         <NavItem>
-                                            <Button outline onClick={()=>toggleLoginModal()}><span className="fa fa-user fa-lg"></span> Login</Button>
+                                            <Button outline onClick={()=>toggleLoginModal()} ><span className="fa fa-user fa-lg"></span> Login</Button>
                                         </NavItem>
                                     </Nav>  
                                 </Collapse> 
@@ -328,7 +334,7 @@ const Header =(props)=>{
                         </>
                 </div>
             </Navbar>
-            <Jumbotron>
+            {/* <Jumbotron>
                 <div className="container">
                     <div className="row row-header">
                         <div className="col-12 col-sm-12">
@@ -337,7 +343,7 @@ const Header =(props)=>{
                         </div>
                     </div>
                 </div>
-            </Jumbotron>
+            </Jumbotron> */}
         </div>
 
     )

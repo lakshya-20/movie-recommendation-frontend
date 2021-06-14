@@ -1,17 +1,14 @@
 import React,{useState,useContext,useEffect} from 'react';
 import {usercontext} from'../../App'
-import {backendURL,flaskBackendURL} from '../../Config'
-import { Card, CardImg, CardImgOverlay,CardTitle,CardBody,CardText, 
-    Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import {backendURL} from '../../Config'
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-
-import {Link} from 'react-router-dom';
 import { Loading } from './Loading'
 
 //redux
 import {fetchUserReviews,fetchMovies,fetchRecommendations}  from '../../redux/ActionCreators';
 import {connect} from 'react-redux';
+import MovieCard from './MovieCard';
 
 
 const mapStateToProps=state=>{
@@ -27,30 +24,6 @@ const mapDispatchToProps=dispatch=>({
     fetchMovies:()=>dispatch(fetchMovies()),
     fetchRecommendations:(userId)=>dispatch(fetchRecommendations(userId))
 })
-
-
-
-function RenderMovie ({movie}) {
-    return (
-        <Card>
-            <Link to={`/movie/${movie._id}`} className="text-decoration-none">
-                <CardImg width="100%" src={movie.poster} alt={movie.title} />
-                {/* <CardImgOverlay>
-                    <CardTitle><span className="badge-dark">{movie.title}</span></CardTitle>
-                </CardImgOverlay> */}
-                <CardBody className="text-dark">
-                    <CardTitle className="font-weight-bold">{movie.title}</CardTitle>
-                    {/* <CardText>
-                        {movie.genres}
-                    </CardText> */}
-                    
-                </CardBody>
-            </Link>
-        </Card>
-    );
-}
-
-
 
 const responsive = {
     superLargeDesktop: {
@@ -73,28 +46,9 @@ const responsive = {
 };
 
 const Homepage=(props)=>{
-    //console.log("homepage props"+JSON.stringify(props.recommendations))
     const[recomd_movies_data,setRecomdMoviesData]=useState([])
     const {state,dispatch}=useContext(usercontext)
     const [dummyRecommendations,setDummyrecommendations]=useState([]);
-    // useEffect(()=>{
-    //     if(state&& state.reviews.length!=0){
-    //         const userId=state._id
-    //         fetch(flaskBackendURL+`/recommendation/${userId}`)
-    //         .then(res=>res.json())
-    //         .then(result=>{
-    //             const movies=result
-    //             for(var i=0;i<movies.length;i++){
-    //                 const movie=movies[i]
-    //                 const id=movie._id.$oid
-    //                 movies[i]._id=id
-    //             }
-    //             //setRecomdMoviesData(movies)  
-    //         }).catch(err=>{
-    //             console.log("err",err)
-    //         })
-    //     }
-    // },[state])
 
     const getDummyRecommendation=()=>{      
         var res=[];
@@ -112,7 +66,6 @@ const Homepage=(props)=>{
     }
 
     useEffect(()=>{
-        //alert("Homepage1"+JSON.stringify(state))
         if(state&& state.reviews.length!=0){
             props.fetchUserReviews(state._id);
             props.fetchMovies()
@@ -122,7 +75,6 @@ const Homepage=(props)=>{
     },[])
 
     useEffect(()=>{
-        //alert("HomePage2"+JSON.stringify(state))
         if(state&& state.reviews.length!=0){
             props.fetchUserReviews(state._id);
             props.fetchMovies()
@@ -139,23 +91,37 @@ const Homepage=(props)=>{
     return(
         <div className="container">
             <div className="row">
-            <Breadcrumb>
-                <BreadcrumbItem active>Home</BreadcrumbItem>
-            </Breadcrumb>
-                <h3 className="text-center col-12">Recommendations</h3>
-                <hr />
+                <h3 className="text-center col-12 main_heading">Recommendations</h3>
             </div> 
             <>
-                {
-                    recomd_movies_data.length!=0?
+            {recomd_movies_data.length!=0?
+                <div className="row justify-content-center">
+                    <div className="col-12">
+                        <Carousel responsive={responsive}>
+                            {
+                                recomd_movies_data.map((movie) => {
+                                    return (
+                                        <div className="col-12"  key={movie._id}>
+                                            <MovieCard movie={movie} />
+                                        </div>
+                                    );
+                                })
+                            }
+                        </Carousel>
+                    </div>
+                </div>
+            :
+                <div>
+                    {
+                        dummyRecommendations.length!=0?
                         <div className="row justify-content-center">
                             <div className="col-12">
                                 <Carousel responsive={responsive}>
                                     {
-                                        recomd_movies_data.map((movie) => {
+                                        dummyRecommendations.map((movie) => {
                                             return (
-                                                <div className="col-12 border"  key={movie._id}>
-                                                    <RenderMovie movie={movie}  />
+                                                <div className="col-12"  key={movie._id}>
+                                                    <MovieCard movie={movie} />
                                                 </div>
                                             );
                                         })
@@ -163,35 +129,15 @@ const Homepage=(props)=>{
                                 </Carousel>
                             </div>
                         </div>
-                    :
+                        :
+                        <div className="text-center">
+                            <Loading/>
+                        </div>
 
-                    <div>
-                        {
-                            dummyRecommendations.length!=0?
-                            <div className="row justify-content-center">
-                                <div className="col-12">
-                                    <Carousel responsive={responsive}>
-                                        {
-                                            dummyRecommendations.map((movie) => {
-                                                return (
-                                                    <div className="col-12 border"  key={movie._id}>
-                                                        <RenderMovie movie={movie}  />
-                                                    </div>
-                                                );
-                                            })
-                                        }
-                                    </Carousel>
-                                </div>
-                            </div>
-                            :
-                            <div className="text-center">
-                                <Loading/>
-                            </div>
-
-                        }
-                    </div>               
-                }
-                </>
+                    }
+                </div>               
+            }
+            </>
         </div>
 
     )

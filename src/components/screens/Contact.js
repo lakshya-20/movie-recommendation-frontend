@@ -1,23 +1,22 @@
 import React, { Component } from 'react';
-import { Breadcrumb, BreadcrumbItem,Button, Row, Col, Label } from 'reactstrap';
 import {Link} from 'react-router-dom'
 
 const Contact=()=>{
-
-
     return(
         <div className="container">
             <div className="row">
-                <Breadcrumb>
-                    <BreadcrumbItem><Link to='/'>Home</Link></BreadcrumbItem>
-                    <BreadcrumbItem active>Contact</BreadcrumbItem>
-                </Breadcrumb>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb cust_breadcrumb">
+                        <li class="breadcrumb-item "><Link to='/' className="cust_breadcrumb_link">Home</Link></li>
+                        <li class="breadcrumb-item text-light active" aria-current="page">Contact</li>
+                    </ol>
+                </nav>
                 <div className="col-12">
-                    <h3>Contact Us</h3>
+                    <h3 className="main_heading">Contact Us</h3>
                     <hr />
                 </div> 
             </div>
-            <div className="row row-content">
+            <div className="row row-content text-light">
                     <div className="col-12">
                         <h3>Information</h3>
                     </div>

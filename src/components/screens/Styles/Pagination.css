@@ -16,12 +16,12 @@
    min-width: 30px;
 }
 
- #react-paginate li a {
-     padding: 2px 5px;
-     display: inline-block;
-     color: #000;
-     outline: none;
- }
+#react-paginate li a {
+   padding: 2px 5px;
+   display: inline-block;
+   color: #000;
+   outline: none;
+}
 
 #react-paginate li.active {
    background: rgb(224, 224, 224);

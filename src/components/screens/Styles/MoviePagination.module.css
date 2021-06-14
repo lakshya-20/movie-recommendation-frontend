@@ -1,0 +1,9 @@
+.pageClassName , .previousClassName, .nextClassName, .breakClassName{
+    background-color: #4d4d4d;
+}
+.activeClassName {
+    background-color: #333333;
+}
+.activeLinkClassName {
+    color: white;
+}

@@ -1,30 +1,9 @@
 import React, { useState,useEffect } from 'react';
-import { Card, CardImg, CardImgOverlay,CardTitle,CardBody,CardText, 
-    Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import {Link} from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 import './Styles/Pagination.css'
-
-function RenderMovie ({movie}) {
-    return (
-        <Card>
-            <Link to={`/movie/${movie._id}`} className="text-decoration-none">
-                <CardImg width="100%" src={movie.poster} alt={movie.title} />
-                {/* <CardImgOverlay>
-                    <CardTitle><span className="badge-dark">{movie.title}</span></CardTitle>
-                </CardImgOverlay> */}
-                <CardBody className="text-dark">
-                    <CardTitle className="font-weight-bold">{movie.title}</CardTitle>
-                    <CardText>
-                        {movie.genres}
-                    </CardText>
-                    
-                </CardBody>
-            </Link>
-        </Card>
-    );
-}
-
+import MovieCard from './MovieCard';
+import styles from './Styles/MoviePagination.module.css'
 function MoviesPagination(props) {
     const[movies_data,setMoviesData]=useState(props.movies_data)
     const [pagination, setPagination] = useState({
@@ -54,25 +33,28 @@ function MoviesPagination(props) {
     return (
         <div className="container">
             <div className="row">
-                <Breadcrumb>
-                    <BreadcrumbItem><Link to='/'>Home</Link></BreadcrumbItem>
-                    <BreadcrumbItem active>Movies</BreadcrumbItem>
-                </Breadcrumb>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb cust_breadcrumb">
+                        <li class="breadcrumb-item "><Link to='/' className="cust_breadcrumb_link">Home</Link></li>
+                        <li class="breadcrumb-item text-light active" aria-current="page">Movies</li>
+                    </ol>
+                </nav>
                 <div className="col-12">
-                    <h3>Movies</h3>
+                    <h3 className="main_heading">Movies</h3>
                     <hr />
                 </div> 
             </div>
             <div className="row justify-content-center">
                 {pagination.currentData && pagination.currentData.map(((item, index) => (
                     <div className="col-6 col-md-3  py-3"  key={item._id}>
-                        <RenderMovie movie={item}  />
+                        {/* <RenderMovie movie={item}  /> */}
+                        <MovieCard movie={item}/>
                     </div>
                 )))
                 }
             </div>
             
-            <div id="react-paginate" className="row justify-content-center">
+            <div id="react-paginate" className={`row justify-content-center`}>
                 <ReactPaginate
                     previousLabel={'← Previous'}
                     nextLabel={'Next →'}
@@ -83,6 +65,12 @@ function MoviesPagination(props) {
                     onPageChange={handlePageClick}
                     containerClassName={'pagination'}
                     activeClassName={'active'}
+                    pageClassName ={`${styles.pageClassName}`}
+                    previousClassName = {`${styles.previousClassName}`}
+                    nextClassName = {`${styles.nextClassName}`}
+                    activeClassName = {`${styles.activeClassName}`}
+                    breakClassName = {`${styles.breakClassName}`}
+                    activeLinkClassName = {`${styles.activeLinkClassName}`}
                 />
             </div>
         

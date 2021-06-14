@@ -1,0 +1,13 @@
+.movie_card {
+    background-color: #4d4d4d;
+    color: white;
+}
+.movie_card_link {
+    color: inherit;
+    text-decoration: none;
+}
+.movie_card_link:hover{
+    text-decoration: none;
+    color: inherit;
+    opacity: 0.6;
+}

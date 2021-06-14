@@ -2,26 +2,42 @@
   margin:0px auto;
   padding:0px auto;
 }
-
 .row-content {
   margin:0px auto;
   padding: 50px 0px 50px 0px;
-  border-bottom: 1px ridge;
   min-height:400px;
 }
-
-.footer{
-  background-color: #D2FDFF;
-  margin:0px auto;
-  padding: 20px 0px 20px 0px;
+.main_heading {
+   color: #b30000;
+   text-transform: uppercase;
+   font-size: xx-large;
 }
-.jumbotron {
+.heading_1 {
+  color: white;
+}
+.title {
+  color: black;
+  font-weight: 600;
+}
+.cust_breadcrumb {
+  background-color: #333333;
+  border: #4d4d4d solid 3px;
+}
+.cust_breadcrumb_link{
+  color: white;
+}
+.cust_breadcrumb_link:hover{
+  text-decoration: none;
+  color: white;
+  opacity: 0.6;
+}
+/* .jumbotron {
   padding:70px 10px 70px 10px;
   margin:0px auto;
   background: #B4DFE5 ;
   color:#0f0f0f;
   margin-bottom: 10px;
-}
+} */
 
 address{
   font-size:80%;
@@ -30,9 +46,8 @@ address{
 }
 
 .navbar-dark {
-  background-color: #303c6C;
+  background-color: #4d4d4d;
 }
-
 
 .page-enter {
   opacity: 0.01;
@@ -54,4 +69,19 @@ address{
   opacity: 0.01;
   transform: translateX(100%);
   transition: all 300ms ease-out;
+}
+
+.footer{
+  background-color: #4d4d4d;
+  margin:0px auto;
+  padding: 20px 0px 20px 0px;
+}
+.footer_link {
+  color: black;
+  text-decoration: inherit;
+  font-weight: 600;
+}
+.footer_link:hover{
+  text-decoration: none;
+  color: inherit;
 }

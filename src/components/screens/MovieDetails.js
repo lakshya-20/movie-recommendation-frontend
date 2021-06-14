@@ -1,13 +1,12 @@
-import React, {Component,useState,useEffect,useContext} from 'react'
+import React, {useState,useEffect,useContext} from 'react'
 import { Modal,ModalHeader, ModalBody,Form, 
-    FormGroup, Input,Label, 
-    Breadcrumb, BreadcrumbItem,Button } from 'reactstrap';
+    FormGroup, Input,Label,Button } from 'reactstrap';
 import BeautyStars from 'beauty-stars';
 import {usercontext} from'../../App'
 import {useParams,Link} from 'react-router-dom'
 import {backendURL,flaskBackendURL} from '../../Config'
 import {toast} from 'react-toastify';
-
+import styles from './Styles/MovieDetails.module.css'
 //redux
 import {fetchUserReviews,addNewReview}  from '../../redux/ActionCreators';
 import {connect} from 'react-redux';
@@ -24,8 +23,6 @@ const mapDispatchToProps=dispatch=>({
 
 
 const MovieDetails=(props)=>{
-    //console.log("dedwd"+JSON.stringify(props.userReviews))
-    
     const [movieId,setMovieId]=useState(useParams().movieId)
     const [movieDetails,setMovieDetails]=useState({})
     const [reviewDetails,setReviewDetails]=useState({})
@@ -78,7 +75,6 @@ const MovieDetails=(props)=>{
     const flaskHandleSubmit=()=>{
         const userId=state._id        
         const res=fetch(flaskBackendURL+`/newReview/${userId}`);
-        //alert(res);
     }
 
     const handleSubmit=(event)=> {
@@ -128,7 +124,7 @@ const MovieDetails=(props)=>{
 
     return(
         <div className="container">            
-            <Modal isOpen={isReviewModalOpen} toggle={toggleReviewModal}>
+            <Modal isOpen={isReviewModalOpen} toggle={toggleReviewModal} className="modal-dialog-centered">
                 <ModalHeader toggle={toggleReviewModal}>Review</ModalHeader>
                 <ModalBody>
                     <Form onSubmit={handleSubmit}>
@@ -155,69 +151,60 @@ const MovieDetails=(props)=>{
                 </ModalBody>
             </Modal>
             <div className="row">
-                <Breadcrumb>
-                    <BreadcrumbItem><Link to='/'>Home</Link></BreadcrumbItem>
-                    <BreadcrumbItem><Link to='/movies'>Movies</Link></BreadcrumbItem>
-                    <BreadcrumbItem active>{movieDetails.title}</BreadcrumbItem>
-                </Breadcrumb>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb cust_breadcrumb">
+                        <li class="breadcrumb-item "><Link to='/' className="cust_breadcrumb_link">Home</Link></li>
+                        <li class="breadcrumb-item "><Link to='/movies' className="cust_breadcrumb_link">Movies</Link></li>
+                        <li class="breadcrumb-item text-light active" aria-current="page">{movieDetails.title}</li>
+                    </ol>
+                </nav>
                 <div className="col-12">
-                    <h3>Movie</h3>
+                    <h3 className="main_heading">Movie</h3>
                     <hr />
                 </div> 
             </div>
             <div className="row py-3">
-                <div className=" col-12  col-sm-3">
+                <div className=" col-6 col-sm-3">
                     <img src={movieDetails.poster} className="col-12"></img>
                 </div>
                 <div className="col-10  col-sm-6 ml-3">
-                    <h2 className="font-weight-bold">{movieDetails.title}</h2>
-                    <span className="text-secondary ">{movieDetails.genres}</span>
-                    {/* <StarRatings
-                        rating={movieDetails.imdb_score}
-                        starRatedColor="blue"
-                        numberOfStars={10}
-                        name='rating'
-                    /> */}
+                    <h2 className={`${styles.movie_title}`}>{movieDetails.title}</h2>
+                    <span className={`${styles.movie_genres}`}>{movieDetails.genres}</span>
                     <hr/>
                     <BeautyStars
                         value={movieDetails.imdb_score}
                         maxStars={10}
                         size={"15px"}
-                        activeColor={"black"}
-                        inactiveColor={"grey"}
+                        activeColor={"white"}
+                        inactiveColor={"#4d4d4d"}
                         //onChange={value => this.setState({ value })}
                     />
                     <>
-                        {
-                            state?
-                                <div>
-                                    <>
-                                    <br/>
-                                        {
-                                            isReviewd?
-                                                <div>
-                                                    
-                                                    <h4>Your Review</h4>
-                                                    <BeautyStars
-                                                        value={reviewDetails.rating}
-                                                        maxStars={10}
-                                                        size={"15px"}
-                                                        activeColor={"black"}
-                                                        inactiveColor={"grey"}
-                                                    />
-                                                </div>
-                                            :
-                                                <div className="row justify-content-center">
-                                                    <Button outline onClick={toggleReviewModal}>Rate this movie</Button>
-                                                </div>
-                                        }
-                                    </>
-                                </div>
-                            :
-                                <div>
-
-                                </div>
-                        }
+                    {state?
+                        <div>
+                            <>
+                            <br/>
+                                {isReviewd?
+                                    <div>
+                                        <h4 className={`${styles.your_review}`}>Your Review</h4>
+                                        <BeautyStars
+                                            value={reviewDetails.rating}
+                                            maxStars={10}
+                                            size={"15px"}
+                                            activeColor={"white"}
+                                            inactiveColor={"#4d4d4d"}
+                                        />
+                                    </div>
+                                :
+                                    <div className="row justify-content-center">
+                                        <Button className={`${styles.rate_btn}`} onClick={toggleReviewModal}>Rate this movie</Button>
+                                    </div>
+                                }
+                            </>
+                        </div>
+                    :
+                        null
+                    }
                     </>
                 </div>
 
