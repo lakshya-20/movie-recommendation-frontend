@@ -22,7 +22,7 @@ function Footer(props) {
                             <span className="title">Lakshya Bansal</span>
                             <br/>                            
                             <i className="fa fa-github"></i>: <a className="footer_link" href="https://github.com/lakshya-20" target="_blank">lakshya-20</a><br />
-                            <i className="fa fa-user"></i>: <a className="footer_link" href="http://www.lakshyabansal.me/" target="_blank">lakshyabansal.me</a>
+                            <i className="fa fa-user"></i>: <a className="footer_link" href="https://lakshyabansal.vercel.app/" target="_blank">Portfolio</a>
                         </>                    
                     </div>
                 </div>

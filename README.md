@@ -1,11 +1,11 @@
+# Flick Movie Recommendation System
+[![License](https://img.shields.io/badge/License-GPL-lightgrey.svg?style=for-the-badge)](https://github.com/lakshya-20/flick-frontend/blob/master/LICENSE) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/lakshya-20/flick-frontend?style=for-the-badge) [![GitHub last commit](https://img.shields.io/github/last-commit/lakshya-20/flick-frontend?style=for-the-badge)](https://github.com/lakshya-20/flick-frontend/commits) <br>
+![React.js](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB) ![Bootstrap](https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white)
 <br />
 <p align="center">
   <a href="https://github.com/lakshya-20/flick-frontend">
     <img src="public/logo.png" alt="Logo" width="60" height="60">
   </a>
-
-  <h3 align="center">Flick Movie Recommendation System</h3>
-
   <p align="center">
     Flick Movie Recommendation is a content-boosted recommendation system that provides users with movie recommendations based on their past interaction with the system.
     <br />
@@ -109,7 +109,7 @@ Here's why:
 
 In the project directory, you can run:
 ```sh
-   npm install
+   npm start
 ```
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 

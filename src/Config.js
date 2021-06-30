@@ -10,11 +10,4 @@ if(process.env.NODE_ENV==='production'){
         JWT_SECRET: process.env.JWT_SEC
     }
 }
-// else{
-//     data={
-//         backendURL:"http://localhost:5000",
-//         flaskBackendURL:"http://localhost:5001",
-//         JWT_SECRET:"my_secret_key"
-//     }
-// }
 module.exports=data;

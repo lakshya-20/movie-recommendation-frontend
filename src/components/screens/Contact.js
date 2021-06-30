@@ -36,8 +36,7 @@ const Contact=()=>{
                         <developer>
                             Lakshya Bansal<br/>                            
                             <i className="fa fa-github"></i>: <a href="https://github.com/lakshya-20" target="_blank">lakshya-20</a><br />
-                            <i className="fa fa-user"></i>: <a href="http://www.lakshyabansal.me/" target="_blank">lakshyabansal.me</a>
-
+                            <i className="fa fa-user"></i>: <a href="https://lakshyabansal.vercel.app/" target="_blank">lakshyabansal.vercel.app</a>
                         </developer>
                     </div>
                     {/* <div className="col-12 col-sm-11 offset-sm-1">
