@@ -10,7 +10,9 @@ const MovieCard = ({movie}) => {
                 <CardBody>
                     <CardTitle className="font-weight-bold">{movie.title}</CardTitle>
                     <CardText>
-                        {movie.genres}
+                        {movie.genres.map( genre => {
+                            return <span key={movie.id+genre} className="badge badge-warning mr-2">{genre}</span>
+                        })}
                     </CardText>
                 </CardBody>
             </Link>

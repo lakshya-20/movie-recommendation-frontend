@@ -121,8 +121,11 @@ const Header =(props)=>{
                 email,
                 password
             })
-        }).then(res=>res.json())
-        .then(data=>{
+        }).then(res=> {
+            if (res.ok) return res.json()
+            else if (res.status == 400) throw new Error("Invalid email or password")
+            else throw new Error("Network response was not ok.")
+        }).then(data=>{
             if(data.error){                
                 toast.error(data.error.message);
             }

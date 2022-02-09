@@ -30,12 +30,12 @@ const MovieDetails=(props)=>{
     const [newReview,setNewReview]=useState({})
     const {state,dispatch}=useContext(usercontext)
     
-    useEffect(()=>{                
+    useEffect(()=>{      
         fetch(process.env.REACT_APP_BACKENDURL+`/api/movies/${movieId}`,{
             headers:{
                 "Authorization":localStorage.getItem("jwt")
             }
-        }).then(res=>res.json())
+        }).then(res=> res.json())
         .then(result=>{
             setMovieDetails(result)
         })
@@ -163,49 +163,59 @@ const MovieDetails=(props)=>{
                 </div> 
             </div>
             <div className="row py-3">
-                <div className=" col-6 col-sm-3">
-                    <img src={movieDetails.poster} className="col-12"></img>
-                </div>
-                <div className="col-10  col-sm-6 ml-3">
-                    <h2 className={`${styles.movie_title}`}>{movieDetails.title}</h2>
-                    <span className={`${styles.movie_genres}`}>{movieDetails.genres}</span>
-                    <hr/>
-                    <BeautyStars
-                        value={movieDetails.imdb_score}
-                        maxStars={10}
-                        size={"15px"}
-                        activeColor={"white"}
-                        inactiveColor={"#4d4d4d"}
-                        //onChange={value => this.setState({ value })}
-                    />
+                {movieDetails.title? //to check if movie details has been fetched
                     <>
-                    {state?
-                        <div>
-                            <>
-                            <br/>
-                                {isReviewd?
-                                    <div>
-                                        <h4 className={`${styles.your_review}`}>Your Review</h4>
-                                        <BeautyStars
-                                            value={reviewDetails.rating}
-                                            maxStars={10}
-                                            size={"15px"}
-                                            activeColor={"white"}
-                                            inactiveColor={"#4d4d4d"}
-                                        />
-                                    </div>
-                                :
-                                    <div className="row justify-content-center">
-                                        <Button className={`${styles.rate_btn}`} onClick={toggleReviewModal}>Rate this movie</Button>
-                                    </div>
-                                }
-                            </>
-                        </div>
-                    :
-                        null
-                    }
+                    <div className=" col-6 col-sm-3">
+                        <img src={movieDetails.poster} className="col-12"></img>
+                    </div>
+                    <div className="col-10  col-sm-6 ml-3">
+                        <h2 className={`${styles.movie_title}`}>{movieDetails.title}</h2>
+                        <span className={`${styles.movie_genres}`}>
+                            {movieDetails.genres.map( genre => {
+                                return <span key={movieDetails.id+genre} className="badge badge-warning mr-2">{genre}</span>
+                            })}
+                        </span>
+                        <hr/>
+                        <BeautyStars
+                            value={movieDetails.imdb_score}
+                            maxStars={10}
+                            size={"15px"}
+                            activeColor={"white"}
+                            inactiveColor={"#4d4d4d"}
+                            //onChange={value => this.setState({ value })}
+                        />
+                        <>
+                        {state?
+                            <div>
+                                <>
+                                <br/>
+                                    {isReviewd?
+                                        <div>
+                                            <h4 className={`${styles.your_review}`}>Your Review</h4>
+                                            <BeautyStars
+                                                value={reviewDetails.rating}
+                                                maxStars={10}
+                                                size={"15px"}
+                                                activeColor={"white"}
+                                                inactiveColor={"#4d4d4d"}
+                                            />
+                                        </div>
+                                    :
+                                        <div className="row justify-content-center">
+                                            <Button className={`${styles.rate_btn}`} onClick={toggleReviewModal}>Rate this movie</Button>
+                                        </div>
+                                    }
+                                </>
+                            </div>
+                        :
+                            null
+                        }
+                        </>
+                    </div>
                     </>
-                </div>
+                :
+                    null
+                }
 
 
             </div>

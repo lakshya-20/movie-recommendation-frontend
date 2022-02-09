@@ -69,8 +69,7 @@ export const fetchUserReviews=(userId)=>(dispatch)=>{
         }
     })
     .then(response => {
-        if (response.ok) {
-            console.log(response)
+        if (response.ok) {            
             return response;
         } 
         else {

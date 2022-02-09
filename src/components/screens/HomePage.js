@@ -57,7 +57,7 @@ const Homepage=(props)=>{
                 "Content-Type":"application/json"
             } 
         }).then(res=>res.json())
-        .then(data=>{                    
+        .then(data=>{                            
             setDummyrecommendations(data);            
         }).catch(err=>{
             console.log(err)
