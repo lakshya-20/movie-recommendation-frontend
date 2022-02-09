@@ -2,7 +2,7 @@ name: CI/CD
 
 on:
   push:
-    branches: [ development ]
+    branches: [ master ]
 
 jobs:
   test:

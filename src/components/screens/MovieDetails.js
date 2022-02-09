@@ -4,7 +4,6 @@ import { Modal,ModalHeader, ModalBody,Form,
 import BeautyStars from 'beauty-stars';
 import {usercontext} from'../../App'
 import {useParams,Link} from 'react-router-dom'
-import {backendURL,flaskBackendURL} from '../../Config'
 import {toast} from 'react-toastify';
 import styles from './Styles/MovieDetails.module.css'
 //redux
@@ -32,7 +31,7 @@ const MovieDetails=(props)=>{
     const {state,dispatch}=useContext(usercontext)
     
     useEffect(()=>{                
-        fetch(backendURL+`/api/movies/${movieId}`,{
+        fetch(process.env.REACT_APP_BACKENDURL+`/api/movies/${movieId}`,{
             headers:{
                 "Authorization":localStorage.getItem("jwt")
             }
@@ -74,7 +73,7 @@ const MovieDetails=(props)=>{
     
     const flaskHandleSubmit=()=>{
         const userId=state._id        
-        const res=fetch(flaskBackendURL+`/newReview/${userId}`);
+        const res=fetch(process.env.REACT_APP_FLASK_BACKENDURL+`/newReview/${userId}`);
     }
 
     const handleSubmit=(event)=> {
@@ -83,7 +82,7 @@ const MovieDetails=(props)=>{
         const mid=movieDetails.movieId
         const refMovieId=movieDetails._id
         const userId=state._id
-        fetch(backendURL+"/api/reviews",{
+        fetch(process.env.REACT_APP_BACKENDURL+"/api/reviews",{
             method:"post",
             headers:{
                 "Content-Type":"application/json",

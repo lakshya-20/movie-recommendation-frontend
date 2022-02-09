@@ -14,7 +14,6 @@ import CacheBuster from './CacheBuster';
 
 import './App.css';
 import {reducer,initialState} from './reducers/userReducer'
-import {backendURL} from './Config'
 
 //redux
 import {Provider} from 'react-redux';
@@ -32,7 +31,7 @@ const Routing=()=>{
     //Using OAuth 
     const parsed  = queryString.parse(window.location.search);
     if(parsed.token){
-      fetch(backendURL+"/api/auth/oauth/util",{
+      fetch(process.env.REACT_APP_BACKENDURL+"/api/auth/oauth/util",{
         method:"post",
         headers:{
           "Authorization":parsed.token

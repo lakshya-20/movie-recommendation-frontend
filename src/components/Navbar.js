@@ -6,7 +6,6 @@ import { Navbar, NavbarBrand, Nav, NavbarToggler,
     Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { NavLink, useHistory} from 'react-router-dom';
 import {usercontext} from'../App'
-import {backendURL} from '../Config'
 import {toast} from 'react-toastify';
 
 //redux
@@ -77,7 +76,7 @@ const Header =(props)=>{
             toast.error("Password does not match");            
             return
         }
-        fetch(backendURL+"/api/auth/signup",{
+        fetch(process.env.REACT_APP_BACKENDURL+"/api/auth/signup",{
             method:"post",
             headers:{
                 "Content-Type":"application/json"
@@ -113,7 +112,7 @@ const Header =(props)=>{
             toast.error("Invalid email");
             return
         }
-        fetch(backendURL+"/api/auth/signin",{
+        fetch(process.env.REACT_APP_BACKENDURL+"/api/auth/signin",{
             method:"post",
             headers:{
                 "Content-Type":"application/json"
@@ -143,7 +142,7 @@ const Header =(props)=>{
     }
 
     const handleGoogleLogin=()=>{
-        window.open(backendURL+"/api/auth/google", "_self");
+        window.open(process.env.REACT_APP_BACKENDURL+"/api/auth/google", "_self");
     }
 
     const handleLogout=(e)=>{

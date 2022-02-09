@@ -1,6 +1,5 @@
 import React,{useState,useContext,useEffect} from 'react';
 import {usercontext} from'../../App'
-import {backendURL} from '../../Config'
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { Loading } from './Loading'
@@ -52,7 +51,7 @@ const Homepage=(props)=>{
 
     const getDummyRecommendation=()=>{      
         var res=[];
-        res=fetch(backendURL+'/api/movies/recommendations',{
+        res=fetch(process.env.REACT_APP_BACKENDURL+'/api/movies/recommendations',{
             method:"get",
             headers:{
                 "Content-Type":"application/json"

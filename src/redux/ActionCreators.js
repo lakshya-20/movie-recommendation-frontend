@@ -1,6 +1,4 @@
 import * as ActionTypes from './ActionTypes';
-import {backendURL,flaskBackendURL} from '../Config';
-
 
 //Movies Handling
 export const moviesLoading=()=>({
@@ -19,7 +17,7 @@ export const addMovies=(movies)=>({
 
 export const fetchMovies=()=>(dispatch)=>{
     dispatch(moviesLoading());
-    return fetch(backendURL+'/api/movies',{
+    return fetch(process.env.REACT_APP_BACKENDURL+'/api/movies',{
         headers:{
             "Authorization":localStorage.getItem("jwt")
         }
@@ -65,13 +63,14 @@ export const newUserReview=(userReview)=>({
 
 export const fetchUserReviews=(userId)=>(dispatch)=>{
     dispatch(userReviewsLoading());
-    return fetch(backendURL+`/api/reviews/${userId}`,{
+    return fetch(process.env.REACT_APP_BACKENDURL+`/api/reviews/${userId}`,{
         headers:{
             "Authorization":localStorage.getItem("jwt")
         }
     })
     .then(response => {
         if (response.ok) {
+            console.log(response)
             return response;
         } 
         else {
@@ -106,7 +105,7 @@ export const addRecommendations=(recommendations)=>({
 
 export const fetchRecommendations=(userId)=>(dispatch)=>{
     dispatch(recommendationsLoading());
-    return fetch(flaskBackendURL+`/recommendation/${userId}`)
+    return fetch(process.env.REACT_APP_FLASK_BACKENDURL+`/recommendation/${userId}`)
     // .then(response => {
     //     if (response.ok) {
     //         return response;

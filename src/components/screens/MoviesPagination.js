@@ -4,7 +4,6 @@ import ReactPaginate from 'react-paginate';
 import './Styles/Pagination.css'
 import MovieCard from './MovieCard';
 import styles from './Styles/MoviePagination.module.css';
-import {backendURL,flaskBackendURL} from '../../Config';
 function MoviesPagination(props) {
     const[movies_data,setMoviesData]=useState(props.movies_data)
     const [pagination, setPagination] = useState({
@@ -31,7 +30,7 @@ function MoviesPagination(props) {
             setSearchTitle(undefined);
             return;
         }
-        fetch(backendURL+`/api/movies/find/${title}`,{
+        fetch(process.env.REACT_APP_BACKENDURL+`/api/movies/find/${title}`,{
             headers:{
                 "Authorization":localStorage.getItem("jwt")
             }
