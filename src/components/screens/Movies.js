@@ -1,49 +1,121 @@
-import React, { useState,useEffect,useContext } from 'react';
-import MoviesPagination from './MoviesPagination'
+import React, { useState, useEffect, memo, useCallback } from 'react';
 import { Loading } from './Loading'
-import {fetchMovies,moviesLoading}  from '../../redux/ActionCreators';
-import {connect} from 'react-redux';
-import {usercontext} from'../../App'
+import MovieCard from './MovieCard';
+import Pagination from './Pagination';
 
-const mapStateToProps=state=>{
-    return{
-        movies:state.movies
-    }
+const fetchMovies = (searchParam, pagination) => {
+    return fetch(`${process.env.REACT_APP_BACKENDURL}/api/movies/search?from=${pagination.from}&size=${pagination.size}`,{
+        method:'POST',
+        body:JSON.stringify(searchParam),
+        headers:{
+            "Authorization":localStorage.getItem("jwt")
+        }
+    })
+    .then(response => response.json())
+    .then(response => response)
 }
-const mapDispatchToProps=dispatch=>({
-    fetchMovies:()=>dispatch(fetchMovies()),
-    moviesLoading:()=>dispatch(moviesLoading())
-})
+
 const Movies = (props) => {
-    const[movies_data,setMoviesData]=useState([])
-    const {state}=useContext(usercontext)
-    useEffect(()=>{
-        if(props.movies.MOVIES==0){
-            props.fetchMovies();
+    const [movies, setMovies] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [searchParam, setSearchParam] = useState({
+        title: {
+            type: 'text',
+            present: false,
+            value: null
+        },
+        genres: {
+            type: 'checkbox',
+            present: false,
+            values: []
+        },
+        imdb_score: {
+            type: "range",
+            present: false,
+            value: {
+                min: null,
+                max: null
+            }
         }
-    },[state])
+    });
+    const [pagination, setPagination] = useState({
+        from: 0,
+        size: 12,
+    })
+    const [total, setTotal] = useState(0);
+    useEffect(() => {
+        setLoading(true);
+        fetchMovies(searchParam, pagination).then(response => {
+            setMovies(response.movies);
+            setLoading(false);
+            setTotal(response.total);
+        })
+    }, [searchParam, pagination]);
 
-
-    useEffect(()=>{
-        if(!props.movies.loading){
-            setMoviesData(props.movies.MOVIES)
+    const updateSearchParam = useCallback(( name, value, checked) => {
+        if (searchParam[name].type === 'text') {
+            setSearchParam({
+                ...searchParam,
+                [name]: {
+                    ...searchParam[name],
+                    present: true,
+                    value: value
+                }
+            })
+        } else if (searchParam[name].type === 'checkbox') {
+            if (checked) {
+                setSearchParam({
+                    ...searchParam,
+                    [name]: {
+                        ...searchParam[name],
+                        present: true,
+                        values: [...searchParam[name].values, value]
+                    }
+                })
+            } else {
+                setSearchParam({
+                    ...searchParam,
+                    [name]: {
+                        ...searchParam[name],
+                        present: true,
+                        values: searchParam[name].values.filter(v => v !== value)
+                    }
+                })
+            }
+        } else if (searchParam[name].type === 'range') {
+            setSearchParam({
+                ...searchParam,
+                [name]: {
+                    ...searchParam[name],
+                    present: true,
+                    value: {
+                        min: searchParam[name].value.min,
+                        max: searchParam[name].value.max
+                    }
+                }
+            })
         }
-    },[props])
+    }, [searchParam])
+    const updatePagination = useCallback((from) => {
+        setPagination({...pagination, from: from})
+    }, [pagination])
     return (
         <div className="container">
-            {
-                movies_data.length>10?
-                    <MoviesPagination movies_data={movies_data}/>
-                :
-                    <div className="container">
-                        <div className="row text-center pt-5">            
-                            <Loading />
+            {loading?
+                <Loading />
+            :
+                <div className='row'>
+                    {movies.map(movie => {
+                        return <div className="col-6 col-md-3  py-3"  key={movie.id}>                    
+                            <MovieCard movie={movie}/>
                         </div>
-                    </div>
-            }    
-        </div>
+                    })}
+                </div>
+            }
+            <Pagination pagination={pagination} updatePagination={updatePagination} total={total} />
+        </div>        
     );
     
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(Movies);
+export default memo(Movies);
