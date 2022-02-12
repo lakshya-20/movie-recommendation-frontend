@@ -1,13 +1,16 @@
 import React, { useState, useEffect, memo, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import { Loading } from './Loading'
 import MovieCard from './MovieCard';
 import Pagination from './Pagination';
+import MoviesFilter from './MoviesFilter';
 
 const fetchMovies = (searchParam, pagination) => {
     return fetch(`${process.env.REACT_APP_BACKENDURL}/api/movies/search?from=${pagination.from}&size=${pagination.size}`,{
         method:'POST',
         body:JSON.stringify(searchParam),
         headers:{
+            'Content-Type': 'application/json',
             "Authorization":localStorage.getItem("jwt")
         }
     })
@@ -15,8 +18,8 @@ const fetchMovies = (searchParam, pagination) => {
     .then(response => response)
 }
 
-const Movies = (props) => {
-    const [movies, setMovies] = useState([]);
+const Movies = () => {
+    const [response, setResponse] = useState([]);
     const [loading, setLoading] = useState(false);
     const [searchParam, setSearchParam] = useState({
         title: {
@@ -41,18 +44,16 @@ const Movies = (props) => {
     const [pagination, setPagination] = useState({
         from: 0,
         size: 12,
-    })
-    const [total, setTotal] = useState(0);
+    })    
     useEffect(() => {
         setLoading(true);
         fetchMovies(searchParam, pagination).then(response => {
-            setMovies(response.movies);
+            setResponse(response);
             setLoading(false);
-            setTotal(response.total);
         })
     }, [searchParam, pagination]);
 
-    const updateSearchParam = useCallback(( name, value, checked) => {
+    const updateSearchParam = useCallback(( name, value, checked = false ) => {
         if (searchParam[name].type === 'text') {
             setSearchParam({
                 ...searchParam,
@@ -89,8 +90,8 @@ const Movies = (props) => {
                     ...searchParam[name],
                     present: true,
                     value: {
-                        min: searchParam[name].value.min,
-                        max: searchParam[name].value.max
+                        min: value.min,
+                        max: value.max
                     }
                 }
             })
@@ -101,18 +102,34 @@ const Movies = (props) => {
     }, [pagination])
     return (
         <div className="container">
+            <div className="row">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb cust_breadcrumb">
+                        <li class="breadcrumb-item "><Link to='/' className="cust_breadcrumb_link">Home</Link></li>
+                        <li class="breadcrumb-item text-light active" aria-current="page">Movies</li>
+                    </ol>
+                </nav>
+                <div className="col-12 d-flex flex-wrap">
+                    <h3 className="main_heading col-12 col-sm-12 col-md-4 float-left">Movies</h3>                    
+                    <div className="col-sm-12 col-md-8 float-right">
+                        {response.filter_params?
+                            <MoviesFilter updateSearchParam={updateSearchParam} filter_params={response.filter_params}/>                        
+                        :null}                        
+                    </div>
+                </div> 
+            </div>            
             {loading?
                 <Loading />
             :
                 <div className='row'>
-                    {movies.map(movie => {
+                    {response.movies && response.movies.map(movie => {
                         return <div className="col-6 col-md-3  py-3"  key={movie.id}>                    
                             <MovieCard movie={movie}/>
                         </div>
                     })}
                 </div>
             }
-            <Pagination pagination={pagination} updatePagination={updatePagination} total={total} />
+            <Pagination pagination={pagination} updatePagination={updatePagination} total={response.total} />
         </div>        
     );
     
