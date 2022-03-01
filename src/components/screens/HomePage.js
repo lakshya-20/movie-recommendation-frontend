@@ -26,7 +26,6 @@ const mapDispatchToProps=dispatch=>({
 
 const responsive = {
     superLargeDesktop: {
-      // the naming can be any, depends on you.
       breakpoint: { max: 4000, min: 3000 },
       items: 7
     },
@@ -45,24 +44,8 @@ const responsive = {
 };
 
 const Homepage=(props)=>{
-    const[recomd_movies_data,setRecomdMoviesData]=useState([])
-    const {state,dispatch}=useContext(usercontext)
-    const [dummyRecommendations,setDummyrecommendations]=useState([]);
-
-    const getDummyRecommendation=()=>{      
-        var res=[];
-        res=fetch(process.env.REACT_APP_BACKENDURL+'/api/movies/recommendations',{
-            method:"get",
-            headers:{
-                "Content-Type":"application/json"
-            } 
-        }).then(res=>res.json())
-        .then(data=>{                            
-            setDummyrecommendations(data);            
-        }).catch(err=>{
-            console.log(err)
-        })              
-    }
+    const[recommendations, setRecommendations] = useState([]);
+    const { state, dispatch} = useContext(usercontext);
 
     useEffect(()=>{
         if(state&& state.reviews.length!=0){
@@ -70,7 +53,9 @@ const Homepage=(props)=>{
             props.fetchMovies()
             props.fetchRecommendations(state._id)            
         }
-        getDummyRecommendation();
+        else{
+            props.fetchRecommendations()
+        }
     },[])
 
     useEffect(()=>{
@@ -82,7 +67,7 @@ const Homepage=(props)=>{
     },[state])
 
     useEffect(()=>{
-        setRecomdMoviesData(props.recommendations.RECOMMENDATIONS)
+        setRecommendations(props.recommendations.RECOMMENDATIONS)
     },[props])
 
     
@@ -93,12 +78,12 @@ const Homepage=(props)=>{
                 <h3 className="text-center col-12 main_heading">Recommendations</h3>
             </div> 
             <>
-            {recomd_movies_data.length!=0?
+            {recommendations.length > 0?
                 <div className="row justify-content-center">
                     <div className="col-12">
                         <Carousel responsive={responsive}>
                             {
-                                recomd_movies_data.map((movie) => {
+                                recommendations.map((movie) => {
                                     return (
                                         <div className="col-12"  key={movie._id}>
                                             <MovieCard movie={movie} />
@@ -110,29 +95,7 @@ const Homepage=(props)=>{
                     </div>
                 </div>
             :
-                <div>
-                    {dummyRecommendations.length!=0?
-                        <div className="row justify-content-center">
-                            <div className="col-12">
-                                <Carousel responsive={responsive}>
-                                    {
-                                        dummyRecommendations.map((movie) => {
-                                            return (
-                                                <div className="col-12"  key={movie._id}>
-                                                    <MovieCard movie={movie} />
-                                                </div>
-                                            );
-                                        })
-                                    }
-                                </Carousel>
-                            </div>
-                        </div>
-                    :
-                        <div className="text-center">
-                            <Loading/>
-                        </div>
-                    }
-                </div>               
+            ""
             }
             </>
         </div>
