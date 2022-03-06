@@ -95,7 +95,8 @@ const MovieDetails=(props)=>{
                 refMovieId,
                 userId
             })
-        }).then(res=>res.json())
+        })
+        .then(res=>res.json())
         .then(data=>{
             if(data.error){
                 alert(JSON.stringify(data.error))
@@ -109,10 +110,16 @@ const MovieDetails=(props)=>{
                 localStorage.setItem("user",JSON.stringify(stateUser))
                 //dispatch({type:"USER",payload:stateUser})
                 toggleReviewModal()
-                flaskHandleSubmit()
+                /**
+                 * no need to make a call to recommendation servcide
+                 * to update the user recommendations. As it is being
+                 * done by the async function in the backend
+                 */
+                // flaskHandleSubmit()
                 window.location.reload(false);                
             }
-        }).catch(err=>{
+        })
+        .catch(err=>{
             console.log(err)
         })
         
