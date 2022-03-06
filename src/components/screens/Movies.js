@@ -41,10 +41,7 @@ const Movies = () => {
             }
         }
     });
-    const [pagination, setPagination] = useState({
-        from: 0,
-        size: 12,
-    })    
+    const [pagination, setPagination] = useState({from: 0, size: 12})
     useEffect(() => {
         setLoading(true);
         fetchMovies(searchParam, pagination).then(response => {
@@ -59,7 +56,7 @@ const Movies = () => {
                 ...searchParam,
                 [name]: {
                     ...searchParam[name],
-                    present: true,
+                    present: value==""?false:true,
                     value: value
                 }
             })
@@ -78,7 +75,7 @@ const Movies = () => {
                     ...searchParam,
                     [name]: {
                         ...searchParam[name],
-                        present: true,
+                        present: false,
                         values: searchParam[name].values.filter(v => v !== value)
                     }
                 })
@@ -100,6 +97,28 @@ const Movies = () => {
     const updatePagination = useCallback((from) => {
         setPagination({...pagination, from: from})
     }, [pagination])
+    const clearFilter = useCallback(() => {
+        setSearchParam({
+            title: {
+                type: 'text',
+                present: false,
+                value: null
+            },
+            genres: {
+                type: 'checkbox',
+                present: false,
+                values: []
+            },
+            imdb_score: {
+                type: "range",
+                present: false,
+                value: {
+                    min: null,
+                    max: null
+                }
+            }
+        })
+    }, [])
     return (
         <div className="container">
             <div className="row">
@@ -109,15 +128,15 @@ const Movies = () => {
                         <li class="breadcrumb-item text-light active" aria-current="page">Movies</li>
                     </ol>
                 </nav>
-                <div className="col-12 d-flex flex-wrap">
-                    <h3 className="main_heading col-12 col-sm-12 col-md-4 float-left">Movies</h3>                    
-                    <div className="col-sm-12 col-md-8 float-right">
+                <div className="col-12 d-flex justify-content-between flex-wrap">
+                    <div className='col-12 col-sm-12 col-md-4'> <h3 className="main_heading">Movies</h3> </div>
+                    <div className="col-12 col-sm-12 col-md-8">
                         {response.filter_params?
-                            <MoviesFilter updateSearchParam={updateSearchParam} filter_params={response.filter_params}/>                        
-                        :null}                        
+                            <MoviesFilter updateSearchParam={updateSearchParam} filter_params={response.filter_params} selected_params={searchParam} clearFilter={clearFilter}/>
+                        :null}
                     </div>
                 </div> 
-            </div>            
+            </div>
             {loading?
                 <Loading />
             :
