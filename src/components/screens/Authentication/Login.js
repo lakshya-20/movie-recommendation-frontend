@@ -41,14 +41,11 @@ const Login = ({toggleAuthModal}) =>{
           email,
           password
         })
-      }).then(res=> {
-        console.log(res);
-        if (res.ok) return res.json()
-        else if (res.status == 400) throw new Error("Invalid email or password")
-        else throw new Error("Network response was not ok.")
-      }).then(data=>{
+      })
+      .then(res=> res.json())
+      .then(data=>{
         if(data.error){
-          toast.error(data.error.message);
+          throw new Error(data.error);
         }
         else{
           localStorage.setItem("jwt",data.token);
@@ -61,13 +58,13 @@ const Login = ({toggleAuthModal}) =>{
       }).catch( err => {
         toast.error(err.message);
       })
-    } catch (ex){
+    } catch (ex) {
       toast.error("Some error occured");
     }
   }
 
   return(
-    <div className='col-12 mt-2'>
+    <div className='col-12'>
       <Form onSubmit={handleLogin}>
         <FormGroup row>
             <Label htmlFor="email" sm={2}>Email</Label>

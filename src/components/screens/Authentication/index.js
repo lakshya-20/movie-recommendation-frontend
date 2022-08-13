@@ -29,7 +29,7 @@ const Authentication = ({toggleAuthModal}) => {
           </NavLink>
         </NavItem>
       </Nav>
-      <TabContent activeTab={activeTab}>
+      <TabContent activeTab={activeTab} className="my-2">
         <TabPane tabId="1">
           <Login toggleAuthModal={toggleAuthModal}/>
         </TabPane>
