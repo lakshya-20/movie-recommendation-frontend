@@ -11,6 +11,7 @@ import {toast} from 'react-toastify';
 //redux
 import {fetchUserReviews,fetchMovies,fetchRecommendations,addAuthState,authStateLogout}  from '../redux/ActionCreators';
 import {connect} from 'react-redux';
+import Authentication from './screens/Authentication/index';
 
 
 const mapStateToProps=state=>{
@@ -29,120 +30,65 @@ const mapDispatchToProps=dispatch=>({
 
 const Header =(props)=>{
     const [isNavOpen,setIsNavOpen]=useState(false);
-    const [isLoginModalOpen,setIsLoginModalOpen]=useState(false);
-    const [isSignupModalOpen,setIsSignupModalOpen]=useState(false);
+    const [isAuthModalOpen,setIsAuthModalOpen]=useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const {state,dispatch}=useContext(usercontext)
     const history=useHistory()
-    const [user,setUser]=useState({
-        name:"User",
-        username:" ",
-        email:" ",
-        password:" ",
-        repassword:" ",
-        gender:" ",
-        photo:" "
-    })
 
     const toggleNav=()=> {
         setIsNavOpen(!isNavOpen)
     }
 
-    const toggleLoginModal=()=>{
-        setIsLoginModalOpen(!isLoginModalOpen)
-        setIsSignupModalOpen(false)
+    const toggleAuthModal=()=>{
+        setIsAuthModalOpen(!isAuthModalOpen)
     }
 
-    const toggleSignupModal=()=> {
-        setIsSignupModalOpen(!isSignupModalOpen)
-        setIsLoginModalOpen(false)
-    }
-
-    const handleSignup=(event)=> {
+    // const handleSignup=(event)=> {
         
-        //alert(JSON.stringify(user))
-        const email=user.email;
-        const password=user.password;
-        const repassword=user.repassword;
-        const name=user.name;
-        const gender=user.gender
-        if(!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)){
-            toast.error("Invalid email");
-            return
-            //signal("invalid email","danger")
+    //     //alert(JSON.stringify(user))
+    //     const email=user.email;
+    //     const password=user.password;
+    //     const repassword=user.repassword;
+    //     const name=user.name;
+    //     const gender=user.gender
+    //     if(!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)){
+    //         toast.error("Invalid email");
+    //         return
+    //         //signal("invalid email","danger")
             
-        }
-        if(password!==repassword){
-            toast.error("Password does not match");            
-            return
-        }
-        fetch(process.env.REACT_APP_BACKENDURL+"/api/auth/signup",{
-            method:"post",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body:JSON.stringify(user)
-        }).then(res=>res.json())
-        .then(data=>{
-            if(data.error){
-                toast.error(data.error.message);
-            }
-            else{        
-                localStorage.setItem("jwt",data.token)
-                localStorage.setItem("user",JSON.stringify(data.user))
-                dispatch({type:"USER",payload:data.user})
-                //M.toast({html:data.message,classes:"#43a047 green darken-1"})
-                //signal()
-                toggleSignupModal();
-                //props.addAuthState(data)
-                toast.success("Signup Success");
-                history.push('/')
-            }
-        }).catch(err=>{
-            toast.error("Some error occured");
-        })
+    //     }
+    //     if(password!==repassword){
+    //         toast.error("Password does not match");            
+    //         return
+    //     }
+    //     fetch(process.env.REACT_APP_BACKENDURL+"/api/auth/signup",{
+    //         method:"post",
+    //         headers:{
+    //             "Content-Type":"application/json"
+    //         },
+    //         body:JSON.stringify(user)
+    //     }).then(res=>res.json())
+    //     .then(data=>{
+    //         if(data.error){
+    //             toast.error(data.error.message);
+    //         }
+    //         else{        
+    //             localStorage.setItem("jwt",data.token)
+    //             localStorage.setItem("user",JSON.stringify(data.user))
+    //             dispatch({type:"USER",payload:data.user})
+    //             //M.toast({html:data.message,classes:"#43a047 green darken-1"})
+    //             //signal()
+    //             toggleSignupModal();
+    //             //props.addAuthState(data)
+    //             toast.success("Signup Success");
+    //             history.push('/')
+    //         }
+    //     }).catch(err=>{
+    //         toast.error("Some error occured");
+    //     })
         
-        event.preventDefault();
-    }
-
-    const handleLogin=(event)=>{
-        const email=user.email;
-        const password=user.password;
-        if(!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)){
-            toast.error("Invalid email");
-            return
-        }
-        fetch(process.env.REACT_APP_BACKENDURL+"/api/auth/signin",{
-            method:"post",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body:JSON.stringify({
-                email,
-                password
-            })
-        }).then(res=> {
-            if (res.ok) return res.json()
-            else if (res.status == 400) throw new Error("Invalid email or password")
-            else throw new Error("Network response was not ok.")
-        }).then(data=>{
-            if(data.error){                
-                toast.error(data.error.message);
-            }
-            else{                
-                localStorage.setItem("jwt",data.token)
-                localStorage.setItem("user",JSON.stringify(data.user))
-                dispatch({type:"USER",payload:data.user})
-                toggleLoginModal();
-                toast.success("Login Success");
-                history.push('/')
-            }
-        }).catch(err=>{
-            toast.error("Some error occured");
-        })
-        
-        event.preventDefault();
-    }
+    //     event.preventDefault();
+    // }
 
     const handleGoogleLogin=()=>{
         window.open(process.env.REACT_APP_BACKENDURL+"/api/auth/google", "_self");
@@ -155,21 +101,6 @@ const Header =(props)=>{
         props.authStateLogout();
         toast.success("Logout Success");
         history.push('/')
-    }
-    const onChange=(e)=>{
-        //signal()
-        const name=e.target.name;
-        const value=e.target.value;
-        setUser({...user,[name]:value})
-    };
-
-    const signal=()=>{
-        return(
-            <Toast isOpen={true}  id="toast-container" >
-                <ToastHeader icon="success">
-                </ToastHeader>
-            </Toast>
-        )
     }
 
     const toggleDropdown=()=>{
@@ -202,29 +133,10 @@ const Header =(props)=>{
 
     return(
         <div className="pb-3">
-            {/* {console.log(state)} */}
-            <Modal isOpen={isLoginModalOpen} toggle={toggleLoginModal} className="modal-dialog-centered">
-                <ModalHeader toggle={toggleLoginModal}>Login</ModalHeader>
-                <ModalBody>
-                    <Form onSubmit={handleLogin}>
-                        <FormGroup>
-                            <Label htmlFor="email">Email</Label>
-                            <Input type="text" id="email" name="email" onChange={onChange} />
-                        </FormGroup>
-                        <FormGroup>
-                            <Label htmlFor="password">Password</Label>
-                            <Input type="password" id="password" name="password" onChange={onChange}/>
-                        </FormGroup>
-                        <div className="d-flex justify-content-around">
-                            <Button type="submit" value="submit" color="primary" >Sumbit</Button>
-                            <Button color="primary" onClick={()=>toggleLoginModal,toggleSignupModal}>SignUp</Button>
-                            <Button color="primary" onClick={()=>handleGoogleLogin()}>Google</Button>
-                        </div>
-                        
-                    </Form>
-                </ModalBody>
+            <Modal isOpen={isAuthModalOpen} toggle={toggleAuthModal} className="modal-dialog-centered">
+                <Authentication toggleAuthModal={toggleAuthModal}/>
             </Modal>
-            <Modal isOpen={isSignupModalOpen} toggle={toggleSignupModal} className="modal-dialog-centered">
+            {/* <Modal isOpen={isSignupModalOpen} toggle={toggleSignupModal} className="modal-dialog-centered">
                 <ModalHeader toggle={toggleSignupModal}>SignUp</ModalHeader>
                 <ModalBody>
                     <Form onSubmit={handleSignup}>
@@ -278,10 +190,9 @@ const Header =(props)=>{
                         </div>
                     </Form>
                 </ModalBody>
-            </Modal>
+            </Modal> */}
             <Navbar dark expand="md">
                 <div className="container">
-                    {/* {()=>signal()}*/}
                     <NavbarBrand className="mr-auto" href={state?"/#":"/#"}>
                         <img src='logo.png'/> <span style={{fontFamily: "Lucida Console"}}> Flick</span>
                     </NavbarBrand>
@@ -328,7 +239,7 @@ const Header =(props)=>{
                                     </Nav>
                                     <Nav className="ml-auto" navbar>
                                         <NavItem>
-                                            <Button outline onClick={()=>toggleLoginModal()} ><span className="fa fa-user fa-lg"></span> Login</Button>
+                                            <Button outline onClick={()=>toggleAuthModal()} ><span className="fa fa-user fa-lg"></span> Login</Button>
                                         </NavItem>
                                     </Nav>  
                                 </Collapse> 
@@ -336,18 +247,7 @@ const Header =(props)=>{
                         </>
                 </div>
             </Navbar>
-            {/* <Jumbotron>
-                <div className="container">
-                    <div className="row row-header">
-                        <div className="col-12 col-sm-12">
-                            <h1>Flick</h1>
-                            <p>Flick Movie Recommendation is a content-based recommendation system that will provide you with movie recommendations based on your past interaction with the system.</p>
-                        </div>
-                    </div>
-                </div>
-            </Jumbotron> */}
         </div>
-
     )
 
 }
