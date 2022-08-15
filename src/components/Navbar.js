@@ -39,9 +39,6 @@ const Header =(props)=>{
     const toggleAuthModal=()=>{
         setIsAuthModalOpen(!isAuthModalOpen)
     }
-    const handleGoogleLogin=()=>{
-        window.open(process.env.REACT_APP_BACKENDURL+"/api/auth/google", "_self");
-    }
     const handleLogout=(e)=>{
         localStorage.clear()
         dispatch({type:"CLEAR"})

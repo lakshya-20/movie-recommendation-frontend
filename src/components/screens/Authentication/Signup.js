@@ -4,7 +4,7 @@ import {useHistory} from 'react-router-dom';
 import {Form, FormGroup, Label, Input, Button, Col} from 'reactstrap';
 import {toast} from 'react-toastify';
 
-const Signup  = ({toggleAuthModal}) => {
+const Signup  = ({toggleAuthModal, handleGoogleLogin}) => {
     const {dispatch} = useContext(usercontext);
     const history = useHistory();
     const [user, setUser] = useState({
@@ -125,6 +125,7 @@ const Signup  = ({toggleAuthModal}) => {
             </FormGroup>
             <div className="d-flex justify-content-around">
                 <Button type="submit" value="submit" color="primary">Submit</Button>
+                <Button color="primary" onClick={handleGoogleLogin}>Google</Button>
             </div>
         </Form>
     </div>

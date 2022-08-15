@@ -9,6 +9,9 @@ const Authentication = ({toggleAuthModal}) => {
   const toggleTab = (index) => {
     setActiveTab(index);
   }
+  const handleGoogleLogin=()=>{
+    window.open(process.env.REACT_APP_BACKENDURL+"/api/auth/google", "_self");
+  }
   return (
     <div>
       <Nav tabs>
@@ -31,10 +34,10 @@ const Authentication = ({toggleAuthModal}) => {
       </Nav>
       <TabContent activeTab={activeTab} className="my-2">
         <TabPane tabId="1">
-          <Login toggleAuthModal={toggleAuthModal}/>
+          <Login toggleAuthModal={toggleAuthModal} handleGoogleLogin={handleGoogleLogin}/>
         </TabPane>
         <TabPane tabId="2">
-          <Signup toggleAuthModal={toggleAuthModal}/>
+          <Signup toggleAuthModal={toggleAuthModal} handleGoogleLogin={handleGoogleLogin}/>
         </TabPane>
       </TabContent>
     </div>
