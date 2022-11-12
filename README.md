@@ -100,8 +100,8 @@ Here's why:
         JWT_SECRET:"<your-secret>"  
     }
    ```
-   [Backend Repository](https://github.com/lakshya-20/flick-backend) 
-   [Recommendation System Repository](https://github.com/lakshya-20/flick)
+   [Backend Repository](https://github.com/lakshya-20/movie-recommendation-backend) 
+   [Recommendation System Repository](https://github.com/lakshya-20/movie-recommendation-engine)
    
 
 <!-- USAGE EXAMPLES -->
