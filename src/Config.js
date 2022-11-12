@@ -5,8 +5,8 @@ var data={
 }
 if(process.env.NODE_ENV==='production'){
     data={
-        backendURL: "https://flick--backend.herokuapp.com",
-        flaskBackendURL: "https://flick-flask.herokuapp.com",
+        backendURL: "https://movie-recommendation-backend.vercel.app",
+        flaskBackendURL: "https://movie-recommendation-engine.vercel.app",
         JWT_SECRET: process.env.JWT_SEC
     }
 }
